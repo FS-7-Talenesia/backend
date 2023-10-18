@@ -10,10 +10,11 @@ module.exports = {
         }
     },
 
-    findById(videoId) {
+    findById(id) {
         try {
-            return user.find({videoId:videoId})
+            return user.findById({_id:id})
         } catch (error) {
+
             throw new Error("Data not found")
         }
     },
