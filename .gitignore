@@ -1,9 +1,5 @@
 node_modules
-<<<<<<< HEAD
 .env
 *.log
 npm-debug.log*
 
-=======
-.env
->>>>>>> e5f0d0e (first commit)
