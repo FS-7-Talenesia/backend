@@ -1,3 +1,3 @@
 const userCtrl = require('./userCtrl')
-
-module.exports = {userCtrl}
+const course = require('./course')
+module.exports = {userCtrl, course}
