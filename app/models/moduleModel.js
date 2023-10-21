@@ -23,6 +23,6 @@ const moduleSchema = new mongoose.Schema({
   }
 })
 
-const module = mongoose.model('module', moduleSchema);
+const module_ = mongoose.model('module', moduleSchema);
 
-module.exports = module
+module.exports = module_
