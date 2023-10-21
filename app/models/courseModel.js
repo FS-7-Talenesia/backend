@@ -6,19 +6,19 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description{
+  description: {
     type: String,
     required: true,
   },
-  img{
+  img: {
     type: String,
     required: true,
   },
-  instructor{
+  instructor: {
     type: String,
     required: true,
   },
-  enroll{
+  enroll: {
     type: boolean,
     required: true,
     default: false,
