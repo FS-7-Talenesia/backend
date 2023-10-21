@@ -14,8 +14,15 @@ module.exports = {
         try {
             return user.findById({_id:id})
         } catch (error) {
-
             throw new Error("Data not found")
+        }
+    },
+
+    findOne(username) {
+        try {
+            return user.findOne(username);
+        } catch (error) {
+            throw new Error("Data not found");
         }
     },
 

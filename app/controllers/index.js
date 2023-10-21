@@ -1,3 +1,7 @@
 const userCtrl = require('./userCtrl')
+const loginCtrl = require('./loginCtrl')
 
-module.exports = {userCtrl}
+module.exports = {
+    userCtrl,
+    loginCtrl
+}

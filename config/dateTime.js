@@ -6,4 +6,4 @@ function giveCurrentDateTime() {
     return dateTime;
 }
 
-module.exports = giveCurrentDateTime;
+module.exports = giveCurrentDateTime
