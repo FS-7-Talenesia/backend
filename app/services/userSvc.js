@@ -1,7 +1,8 @@
 const userRepo = require('../repositories/userRepo')
 const giveCurrentDateTime = require('../../config/dateTime')
+const passwordHandler = require('../../config/passwordHandler')
 const { ref, getDownloadURL, uploadBytesResumable, deleteObject } = require("firebase/storage");
-const { storage } = require("../../config/firebaseStorage");
+const storage  = require("../../config/firebaseStorage");
 
 module.exports = {
 
@@ -13,7 +14,7 @@ module.exports = {
         } catch (error) {
             return {
                 response: 404,
-                msg: "user not found",
+                message: "user not found",
                 error: error.message,
             }
         }
@@ -28,7 +29,7 @@ module.exports = {
         } catch (error) {
             return {
                 response: 404,
-                msg: "User not found",
+                message: "User not found",
                 error: error.message,
             }
         }
@@ -37,29 +38,38 @@ module.exports = {
     async createUser(req) {
         try {
             const img = "/image/default_user_icon.png"
-            const { username, password, name, age, role, gender, email} = req.body
-           
-            if (!username || !password || !name || !age || !role || !gender || !email) {
-                throw new Error("Make sure everything is filled in")
-            }
-        
-            const user = await userRepo.create({
-                username:username,
-                password:password,
-                name:name,
-                age:age,
-                role:role,
-                gender:gender,
-                email:email,
-                img:img
-            })
+            const password = await passwordHandler.encryptPassword(req.body.password)
+            const { username, name, age, role, gender, email} = req.body
 
-            return { user }
+            const usernameData = await userRepo.findOne({ username: username})
+            const emailData = await userRepo.findOne({ email: email })
+
+            if (usernameData){
+                throw new Error("username already exist")
+            } else if (emailData) {
+                throw new Error("email already exist")
+            }else if (!username || !password || !name || !age || !role || !gender || !email) {
+                throw new Error("Make sure everything is filled in")
+            } else {
+                const user = await userRepo.create({
+                    username: username,
+                    password: password,
+                    name: name,
+                    age: age,
+                    role: role,
+                    gender: gender,
+                    email: email,
+                    img: img
+                })
+
+                return { user }
+            }
+
         } catch (error) {
             return {
                 response: 400,
                 status: "Fail",
-                msg: "Failed to create user",
+                message: "Failed to create user",
                 error: error.message,
             }
         }
@@ -129,7 +139,7 @@ module.exports = {
             return {
                 response: 400,
                 status: "Fail",
-                msg: "Failed to update user",
+                message: "Failed to update user",
                 error: error.message,
             }
         }
@@ -162,7 +172,7 @@ module.exports = {
             return {
                 response: 400,
                 status: "Fail",
-                msg: "Failed to delete user",
+                message: "Failed to delete user",
                 error: error.message,
             }
         }
