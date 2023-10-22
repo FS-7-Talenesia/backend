@@ -4,6 +4,7 @@ const userImgHandler = require('./userImgHandler')
 const {courses} = require('..app/controllers/index')
 const {userCtrl, loginCtrl} = require('../app/controllers/index')
 const authorization = require('./userRole')
+const multer = require('./fileHandler')
 
 //Login
 router.post('/login', loginCtrl.loginHandle)
@@ -23,4 +24,3 @@ router.put('/course/:id', courses.updateCourse)
 router.delete('/course/:id', courses.deleteCourse)
 
 module.exports = router
-
