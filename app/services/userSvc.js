@@ -1,6 +1,8 @@
 const userRepo = require('../repositories/userRepo')
+const giveCurrentDateTime = require('../../config/dateTime')
+const passwordHandler = require('../../config/passwordHandler')
 const { ref, getDownloadURL, uploadBytesResumable, deleteObject } = require("firebase/storage");
-const { storage, firebaseConfig } = require("../../config/firebase-config");
+const storage  = require("../../config/firebaseStorage");
 
 module.exports = {
 
@@ -12,53 +14,62 @@ module.exports = {
         } catch (error) {
             return {
                 response: 404,
-                msg: "user not found",
+                message: "user not found",
                 error: error.message,
             }
         }
     },
 
-    // async userListByVideoId(req) {
-    //     try {
-    //         const videoId = req.params.videoId
-    //         const user = await userRepo.findById(videoId)
-
-    //         return { user }
-    //     } catch (error) {
-    //         return {
-    //             response: 404,
-    //             msg: "Video thumbnail not found",
-    //             error: error.message,
-    //         }
-    //     }
-    // },
-
-    async createUser(req) {
+    async findUserById(req) {
         try {
-            const { username, password, name, age, gender, email, role, level, img } = req.body
-
-            if (!username || !password || !name || !age || !gender || !email || !role || !level || !img) {
-                throw new Error("Make sure everything is filled in")
-            }
-
-            const user = await userRepo.create({
-                username:username,
-                password:password,
-                name:name,
-                age:age,
-                gender:gender,
-                email:email,
-                role:role,
-                level:level,
-                img: ""
-            })
+            const id = req.params.id
+            const user = await userRepo.findById(id)
 
             return { user }
         } catch (error) {
             return {
+                response: 404,
+                message: "User not found",
+                error: error.message,
+            }
+        }
+    },
+
+    async createUser(req) {
+        try {
+            const img = "/image/default_user_icon.png"
+            const password = await passwordHandler.encryptPassword(req.body.password)
+            const { username, name, age, role, gender, email} = req.body
+
+            const usernameData = await userRepo.findOne({ username: username})
+            const emailData = await userRepo.findOne({ email: email })
+
+            if (usernameData){
+                throw new Error("username already exist")
+            } else if (emailData) {
+                throw new Error("email already exist")
+            }else if (!username || !password || !name || !age || !role || !gender || !email) {
+                throw new Error("Make sure everything is filled in")
+            } else {
+                const user = await userRepo.create({
+                    username: username,
+                    password: password,
+                    name: name,
+                    age: age,
+                    role: role,
+                    gender: gender,
+                    email: email,
+                    img: img
+                })
+
+                return { user }
+            }
+
+        } catch (error) {
+            return {
                 response: 400,
                 status: "Fail",
-                msg: "Failed to create user",
+                message: "Failed to create user",
                 error: error.message,
             }
         }
@@ -66,30 +77,69 @@ module.exports = {
 
     async updateUser(req) {
         try {
-            const { username, password, name, age, gender, email, role, level, img } = req.body
-            
-            if (!username || !password || !name || !age || !gender || !email || !role || !level || !img) {
-                throw new Error("Make sure everything is filled in")
+            const id = req.params.id
+            const userData = await userRepo.findById(id)
+            const userJSON = JSON.stringify(userData)
+            const userParse = JSON.parse(userJSON)
+            const imageUrl = userParse.img
+
+            if (imageUrl === "/image/default_user_icon.png")
+            {
+                const dateTime = giveCurrentDateTime()
+                const storageRef = ref(storage, `user_img/${req.file.originalname + "_" + dateTime}`)
+                const metadata = {
+                    contentType: req.file.mimetype,
+                };
+                const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata)
+
+                const img = await getDownloadURL(snapshot.ref)
+
+                const { username, password, name, age, gender, email } = req.body
+
+                const user = await userRepo.update(req.params.id, {
+                    username: username,
+                    password: password,
+                    name: name,
+                    age: age,
+                    gender: gender,
+                    email: email,
+                    img: img
+                })
+
+                return { user }
+            } else {
+                const deleteOldImage = ref(storage, `${imageUrl}`)
+                deleteObject(deleteOldImage)
+
+                const dateTime = giveCurrentDateTime()
+                const storageRef = ref(storage, `user_img/${req.file.originalname + "_" + dateTime}`)
+                const metadata = {
+                    contentType: req.file.mimetype,
+                };
+                const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata)
+
+                const img = await getDownloadURL(snapshot.ref)
+
+                const { username, password, name, age, gender, email } = req.body
+
+                const user = await userRepo.update(req.params.id, {
+                    username: username,
+                    password: password,
+                    name: name,
+                    age: age,
+                    gender: gender,
+                    email: email,
+                    img: img
+                })
+
+                return { user }
             }
-
-            const user = await userRepo.update(req.params.id, {
-                username: username,
-                password: password,
-                name: name,
-                age: age,
-                gender: gender,
-                email: email,
-                role: role,
-                level: level,
-                img: img
-            })
-
-            return { user }
+            
         } catch (error) {
             return {
                 response: 400,
                 status: "Fail",
-                msg: "Failed to update user",
+                message: "Failed to update user",
                 error: error.message,
             }
         }
@@ -97,17 +147,32 @@ module.exports = {
     async deleteUser(req) {
         try {
             const id = req.params.id
+            const userData = await userRepo.findById(id)
+            const userJSON = JSON.stringify(userData)
+            const userParse = JSON.parse(userJSON)
+            const imageUrl = userParse.img
 
-            const user = await userRepo.delete({
-                _id: id
-            })
+            if (imageUrl === "/image/default_user_icon.png"){
+                const user = await userRepo.delete({
+                    _id: id
+                })
 
-            return { user }
+                return { user }
+            } else {
+                const deleteOldImage = ref(storage, `${imageUrl}`)
+                deleteObject(deleteOldImage)
+
+                const user = await userRepo.delete({
+                    _id: id
+                })
+
+                return { user }
+            }
         } catch (error) {
             return {
                 response: 400,
                 status: "Fail",
-                msg: "Failed to delete user",
+                message: "Failed to delete user",
                 error: error.message,
             }
         }

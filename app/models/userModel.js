@@ -5,29 +5,34 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        maxLength: 100
+        maxLength: 30
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        maxLength: 80
     },
     name: {
         type: String,
-        required: true
+        required: true,
+        maxLength: 100
+    },
+    age: {
+        type: Number,
+        required: true,
+        maxLength: 100
     },
     gender: {
         type: String,
-        required: true
+        required: true,
+        maxLength: 1
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        maxLength: 30
     },
     role: {
-        type: String,
-        required: true
-    },
-    level: {
         type: String,
         required: true
     },

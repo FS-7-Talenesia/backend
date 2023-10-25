@@ -1,23 +1,24 @@
 const express = require('express')
 const router = express.Router()
+const userImgHandler = require('./userImgHandler')
+const {userCtrl, loginCtrl} = require('../app/controllers/index')
+const authorization = require('./userRole')
 const multer = require('./fileHandler')
 const {userCtrl} = require('../app/controllers/index')
-<<<<<<< HEAD
-=======
 const {courses} = require('..app/controllers/index')
 
->>>>>>> 088a13a (adding routes)
+//Login
+router.post('/login', loginCtrl.loginHandle)
 
-//user Routes
-router.get('/user-list', userCtrl.listUserHandle)
-// router.get('/user-list/:videoId/', userCtrl.userListByVideoId)
-router.post('/user', userCtrl.createUserHandle)
-router.put('/user/:id', userCtrl.updateUserHandle)
-router.delete('/user/:id', userCtrl.deleteUserHandle)
+//User routes
+router.get('/user', userCtrl.listUserHandle)
+router.get('/user/:id', userCtrl.findUserByIdHandle)
+router.post('/user/create/',
+    authorization.authorizeAdmin,
+    userCtrl.createUserHandle)
+router.put('/user/update/:id', userImgHandler, userCtrl.updateUserHandle)
+router.delete('/user/delete/:id', userCtrl.deleteUserHandle)
 
-<<<<<<< HEAD
-module.exports = router
-=======
 //courses routes
 router.get('/course/:id', courses.getCourses)
 router.post('/course', courses.createCourse)
@@ -25,4 +26,4 @@ router.put('/course/:id', courses.updateCourse)
 router.delete('/course/:id', courses.deleteCourse)
 
 module.exports = router
->>>>>>> 088a13a (adding routes)
+
