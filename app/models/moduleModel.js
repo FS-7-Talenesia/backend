@@ -18,7 +18,6 @@ const moduleSchema = new mongoose.Schema({
   },
   enroll: {
     type: Boolean,
-    required: true,
     default: false
   }
 })
