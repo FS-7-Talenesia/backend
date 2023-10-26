@@ -10,11 +10,18 @@ module.exports = {
         try {
             const user = await userRepo.findAll()
             
-            return { user }
+            if(user === null){
+                return{
+                    message: "User not found"
+                } 
+            }
+
+            return { user}
         } catch (error) {
             return {
                 response: 404,
-                message: "user not found",
+                status: "Fail",
+                message: "User not found",
                 error: error.message,
             }
         }
@@ -24,11 +31,18 @@ module.exports = {
         try {
             const id = req.params.id
             const user = await userRepo.findById(id)
+            
+            if (user === null) {
+                return {
+                    message: "User not found"
+                }
+            }
 
             return { user }
         } catch (error) {
             return {
                 response: 404,
+                status: "Fail",
                 message: "User not found",
                 error: error.message,
             }
@@ -45,9 +59,9 @@ module.exports = {
             const emailData = await userRepo.findOne({ email: email })
 
             if (usernameData){
-                throw new Error("username already exist")
+                throw new Error("Username already exist")
             } else if (emailData) {
-                throw new Error("email already exist")
+                throw new Error("Email already exist")
             }else if (!username || !password || !name || !age || !role || !gender || !email) {
                 throw new Error("Make sure everything is filled in")
             } else {

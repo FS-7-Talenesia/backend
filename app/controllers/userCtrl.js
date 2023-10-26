@@ -4,7 +4,8 @@ function listUserHandle(req, res) {
     listUser(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
-                msg: data.message,
+                status: data.status,
+                message: data.message,
                 error: data.error
             })
         } else {
@@ -24,7 +25,8 @@ function findUserByIdHandle(req, res) {
     findUserById(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
-                msg: data.message,
+                status: data.status,
+                message: data.message,
                 error: data.error
             })
         } else {
@@ -44,7 +46,8 @@ function createUserHandle(req, res) {
     createUser(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
-                msg: data.message,
+                status: data.status,
+                message: data.message,
                 error: data.error
             })
         } else {
@@ -64,13 +67,14 @@ function updateUserHandle(req, res) {
     updateUser(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
-                msg: data.message,
+                status: data.status,
+                message: data.message,
                 error: data.error
             })
         } else {
             res.status(200).json({
                 status: "OK",
-                msg: "Update success"
+                message: "Update success"
             })
         }
     }).catch(error => {
@@ -84,13 +88,14 @@ function deleteUserHandle(req, res) {
     deleteUser(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
-                msg: data.message,
+                status: data.status,
+                message: data.message,
                 error: data.error
             })
         } else {
             res.status(200).json({
                 status: "OK",
-                msg: "Delete success"
+                message: "Delete success"
             })
         }
     }).catch(error => {
