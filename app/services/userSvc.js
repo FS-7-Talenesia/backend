@@ -20,7 +20,7 @@ module.exports = {
         } catch (error) {
             return {
                 response: 404,
-                status: "Fail",
+                status: "FAIL",
                 message: "User not found",
                 error: error.message,
             }
@@ -42,7 +42,7 @@ module.exports = {
         } catch (error) {
             return {
                 response: 404,
-                status: "Fail",
+                status: "FAIL",
                 message: "User not found",
                 error: error.message,
             }
@@ -82,7 +82,7 @@ module.exports = {
         } catch (error) {
             return {
                 response: 400,
-                status: "Fail",
+                status: "FAIL",
                 message: "Failed to create user",
                 error: error.message,
             }
@@ -152,7 +152,7 @@ module.exports = {
         } catch (error) {
             return {
                 response: 400,
-                status: "Fail",
+                status: "FAIL",
                 message: "Failed to update user",
                 error: error.message,
             }
@@ -185,7 +185,7 @@ module.exports = {
         } catch (error) {
             return {
                 response: 400,
-                status: "Fail",
+                status: "FAIL",
                 message: "Failed to delete user",
                 error: error.message,
             }

@@ -29,6 +29,7 @@ module.exports = {
         } catch (error) {
             return {
                 response: 404,
+                status: "FAIL",
                 message: "username or password is incorrect",
                 error: error.message
             }
