@@ -1,11 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const userImgHandler = require('./userImgHandler')
-const {userCtrl, loginCtrl} = require('../app/controllers/index')
 const authorization = require('./userRole')
-const multer = require('./fileHandler')
-const {userCtrl} = require('../app/controllers/index')
-const {courses} = require('..app/controllers/index')
+const { userCtrl, loginCtrl, courses } = require('../app/controllers/index')
 
 //Login
 router.post('/login', loginCtrl.loginHandle)
@@ -20,10 +17,10 @@ router.put('/user/update/:id', userImgHandler, userCtrl.updateUserHandle)
 router.delete('/user/delete/:id', userCtrl.deleteUserHandle)
 
 //courses routes
-router.get('/course/:id', courses.getCourses)
-router.post('/course', courses.createCourse)
-router.put('/course/:id', courses.updateCourse)
-router.delete('/course/:id', courses.deleteCourse)
+// router.get('/course/:id', courses.getCourses)
+// router.post('/course', courses.createCourse)
+// router.put('/course/:id', courses.updateCourse)
+// router.delete('/course/:id', courses.deleteCourse)
 
 module.exports = router
 
