@@ -29,9 +29,11 @@ module.exports = {
     }
   },
 
-  update(args, moduleId) {
+  update(args) {
     try {
-      return module_.updateOne({_id: moduleId}, args);
+      const { moduleId, ...data } = args
+
+      return module_.updateOne({_id: moduleId}, data);
     } catch (error) {
       throw new Error('Failed to update module', error)
     }
