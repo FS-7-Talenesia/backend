@@ -1,4 +1,4 @@
-const userRepo = require("../app/repositories/userRepo")
+const userRepo = require("../../repositories/userRepo")
 const jwt = require("jsonwebtoken")
 const dotenv = require('dotenv')
 dotenv.config()
@@ -11,7 +11,7 @@ async function authorize(req, res, next, authorizedRoles) {
      
         const user = await userRepo.findOne({_id: tokenPayload._id});
         req.user = user
-       
+
         if (!authorizedRoles.includes(user.role)) {
             res.status(401).json({
                 status: "FAIL",
@@ -29,6 +29,10 @@ async function authorize(req, res, next, authorizedRoles) {
     }
 }
 
+function authorizeAll(req, res, next) {
+    authorize(req, res, next, ["admin", "teacher", "student"])
+}
+
 function authorizeAdmin(req, res, next) {
     authorize(req, res, next, ["admin"])
 }
@@ -42,6 +46,7 @@ function authorizeStudent(req, res, next) {
 }
 
 module.exports = {
+    authorizeAll,
     authorizeAdmin,
     authorizeTeacher,
     authorizeStudent

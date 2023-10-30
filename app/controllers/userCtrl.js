@@ -4,6 +4,7 @@ function listUserHandle(req, res) {
     listUser(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
+                response: data.response,
                 status: data.status,
                 message: data.message,
                 error: data.error
@@ -25,6 +26,7 @@ function findUserByIdHandle(req, res) {
     findUserById(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
+                response: data.response,
                 status: data.status,
                 message: data.message,
                 error: data.error
@@ -46,6 +48,7 @@ function createUserHandle(req, res) {
     createUser(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
+                response: data.response,
                 status: data.status,
                 message: data.message,
                 error: data.error
@@ -67,6 +70,7 @@ function updateUserHandle(req, res) {
     updateUser(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
+                response: data.response,
                 status: data.status,
                 message: data.message,
                 error: data.error
@@ -88,6 +92,7 @@ function deleteUserHandle(req, res) {
     deleteUser(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
+                response: data.response,
                 status: data.status,
                 message: data.message,
                 error: data.error

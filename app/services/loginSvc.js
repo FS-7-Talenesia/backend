@@ -16,21 +16,26 @@ module.exports = {
                 username: username,
             })
 
-            await passwordHandler.checkPassword(user.password, password)
+            const isPasswordCorrect = await passwordHandler.checkPassword(user.password, password)
+           
+            if (isPasswordCorrect) {    
+                const token = createToken({
+                    _id: user._id,
+                    username: user.username,
+                    email: user.email,
+                    role: user.role,
+                });
 
-            const token = createToken({
-                _id: user._id,
-                username: user.username,
-                email: user.email,
-                role: user.role,
-            });
-            return {token}
+                return { token }
+            } else {
+                throw new Error('username or password is invalid')
+            }
 
         } catch (error) {
             return {
-                response: 404,
+                response: 401,
                 status: "FAIL",
-                message: "username or password is incorrect",
+                message: "An error has occured",
                 error: error.message
             }
         }
