@@ -18,7 +18,9 @@
     "firebase": "^10.4.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.4.1",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.7",
+    "randombytes": "^2.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

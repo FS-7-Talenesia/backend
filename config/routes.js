@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const userImgHandler = require('./userImgHandler')
-const authorization = require('./userRole')
-const { userCtrl, loginCtrl, courses } = require('../app/controllers/index')
+const authorization = require('../app/services/middleware/userRole')
+const { userCtrl, loginCtrl, courses, emailCtrl, passwordCtrl } = require('../app/controllers/index')
 
 //Login
 router.post('/login', loginCtrl.loginHandle)
@@ -15,6 +15,21 @@ router.post('/user/create/',
     userCtrl.createUserHandle)
 router.put('/user/update/:id', userImgHandler, userCtrl.updateUserHandle)
 router.delete('/user/delete/:id', userCtrl.deleteUserHandle)
+
+//User verify email
+router.post('/send-verify/:id',
+    authorization.authorizeAll,
+    emailCtrl.sendEmailVerifyHandle)
+router.post('/email-verify/:token_email_verify',
+    authorization.authorizeAll,
+    emailCtrl.emailVerifyHandle)
+
+//User password handle
+router.post('/send-forgot-password', passwordCtrl.sendForgotPasswordHandle)
+router.post('/reset-password/:token_reset_password', passwordCtrl.resetPasswordHandle)
+router.post('/change-password/:id',
+    authorization.authorizeAll,
+    passwordCtrl.changePasswordHandle)
 
 //courses routes
 // router.get('/course/:id', courses.getCourses)

@@ -5,17 +5,20 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        maxLength: 30
+        maxLength: 30,
+        minLength: 3
     },
     password: {
         type: String,
         required: true,
-        maxLength: 80
+        maxLength: 80,
+        minLength: 8,
     },
     name: {
         type: String,
         required: true,
-        maxLength: 100
+        maxLength: 100,
+        minLength: 3
     },
     age: {
         type: Number,
@@ -34,11 +37,27 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        required: true
+    },
+    verified: {
+        type: Boolean,
+        required: true,
+        default: false
     },
     img: {
         type: String,
         required: true
+    },
+    token_email_verify: {
+        type: String,
+    },
+    token_email_verify_expires: {
+        type: String,
+    },
+    token_reset_password: {
+        type: String,
+    },
+    token_reset_password_expires: {
+        type: String,
     },
 })
 

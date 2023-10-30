@@ -1,3 +1,4 @@
+const { addAbortSignal } = require('nodemailer/lib/xoauth2')
 const user = require('../models/userModel')
 
 module.exports = {
@@ -18,9 +19,9 @@ module.exports = {
         }
     },
 
-    findOne(username) {
+    findOne(Args) {
         try {
-            return user.findOne(username);
+            return user.findOne(Args);
         } catch (error) {
             throw new Error("Data not found");
         }
