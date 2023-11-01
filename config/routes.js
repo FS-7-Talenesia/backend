@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const userImgHandler = require('./userImgHandler')
 const authorization = require('../app/services/middleware/userRole')
-const { userCtrl, loginCtrl, courses, emailCtrl, passwordCtrl } = require('../app/controllers/index')
+const { main, userCtrl, loginCtrl, courses, emailCtrl, passwordCtrl } = require('../app/controllers/index')
 
 //Login
 router.post('/login', loginCtrl.loginHandle)
@@ -36,6 +36,11 @@ router.post('/change-password/:id',
 // router.post('/course', courses.createCourse)
 // router.put('/course/:id', courses.updateCourse)
 // router.delete('/course/:id', courses.deleteCourse)
+
+//api error handler
+router.get('/', main.onUp)
+router.use(main.onLost)
+router.use(main.onError)
 
 module.exports = router
 
