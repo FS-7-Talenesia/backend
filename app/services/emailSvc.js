@@ -34,6 +34,7 @@ module.exports = {
 
     async emailVerify(req) {
         try {
+  
             if (req.user.token_email_verify === undefined) {
                 throw new Error("token is undefined, please generate the token")
             }
@@ -42,7 +43,7 @@ module.exports = {
             const expiresIn = new Date()
             expiresIn.setMinutes(expiresIn.getMinutes() + 15)
             
-            if (expiresIn > getTime && req.params.token === req.user.token_email_verify) {
+            if (expiresIn > getTime && req.params.token_email_verify === req.user.token_email_verify) {
         
                 await userRepo.update(req.user.id, {
                     verified: true,

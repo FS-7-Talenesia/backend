@@ -13,7 +13,9 @@ router.get('/user/:id', userCtrl.findUserByIdHandle)
 router.post('/user/create/',
     authorization.authorizeAdmin,
     userCtrl.createUserHandle)
-router.put('/user/update/:id', userImgHandler, userCtrl.updateUserHandle)
+router.put('/user/update/:id',
+    authorization.authorizeAll, 
+    userImgHandler, userCtrl.updateUserHandle)
 router.delete('/user/delete/:id', userCtrl.deleteUserHandle)
 
 //User verify email

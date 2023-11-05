@@ -2,7 +2,6 @@ const {sendEmailVerify, emailVerify} = require('../services/emailSvc')
 
 function sendEmailVerifyHandle(req, res) {
     sendEmailVerify(req).then(data => {
-        console.log('ctrl', data)
         if (data.response) {
             res.status(data.response).json({
                 response: data.response,
@@ -25,7 +24,6 @@ function sendEmailVerifyHandle(req, res) {
 
 function emailVerifyHandle(req, res) {
     emailVerify(req).then(data => {
-        console.log('ctrl', data)
         if (data.response) {
             res.status(data.response).json({
                 response: data.response,

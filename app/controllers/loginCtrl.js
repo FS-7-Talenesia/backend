@@ -2,7 +2,6 @@ const {userLogin} = require('../services/loginSvc')
 
 function loginHandle(req, res) {
     userLogin(req).then(data => {
-        console.log('ctrl', data)
         if (data.response) {
             res.status(data.response).json({
                 response: data.response,
