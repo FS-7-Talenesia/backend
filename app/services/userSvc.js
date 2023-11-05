@@ -108,11 +108,10 @@ module.exports = {
 
                 const img = await getDownloadURL(snapshot.ref)
 
-                const { username, password, name, age, gender, email } = req.body
+                const { username, name, age, gender, email } = req.body
 
                 const user = await userRepo.update(req.params.id, {
                     username: username,
-                    password: password,
                     name: name,
                     age: age,
                     gender: gender,
