@@ -1,10 +1,9 @@
-const user = require('../models/userModel')
+const fileSubmission = require('../models/fileSubmissionModel')
 
 module.exports = {
-
     findAll() {
         try {
-            return user.find()
+            return fileSubmission.find().populate('user_id')
         } catch (error) {
             throw new Error("Data not found", error) 
         }
@@ -12,7 +11,7 @@ module.exports = {
 
     findById(id) {
         try {
-            return user.findById({_id:id})
+            return fileSubmission.findById({_id:id})
         } catch (error) {
             throw new Error("Data not found")
         }
@@ -20,7 +19,7 @@ module.exports = {
 
     findOne(Args) {
         try {
-            return user.findOne(Args);
+            return fileSubmission.findOne(Args);
         } catch (error) {
             throw new Error("Data not found");
         }
@@ -28,7 +27,7 @@ module.exports = {
 
     create(Args) {
         try {
-            return user.create(Args)
+            return fileSubmission.create(Args)
         } catch (error) {
             throw new Error("Failed create data to database", error)
         }
@@ -36,7 +35,7 @@ module.exports = {
 
     update(id, Args) {
         try {
-            return user.updateOne({_id:id}, Args)
+            return fileSubmission.updateOne({_id:id}, Args)
         } catch (error) {
             throw new Error("Failed update data to database", error)
         }
@@ -44,7 +43,7 @@ module.exports = {
 
     delete(id) {
         try {
-            return user.deleteOne({_id:id})
+            return fileSubmission.deleteOne({_id:id})
         } catch (error) {
             throw new Error("Failed delete data to database", error)
         }

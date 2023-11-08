@@ -1,13 +1,6 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
-const essaiSchema = new mongoose.Schema({
-    number: {
-        type: String,
-    },
-    question: {
-        type: String,
-    },
+const submissionSchema = new mongoose.Schema({
     value: {
         type: Number,
         maxLength: 100,
@@ -20,13 +13,16 @@ const essaiSchema = new mongoose.Schema({
     },
     max_repeat: {
         type: Number,
-        
     },
     open: {
         type: Boolean,
     },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    }
 })
 
-const essai = mongoose.model('essai', essaiSchema)
+const submission = mongoose.model('submission', submissionSchema)
 
-module.exports = essai
+module.exports = submission

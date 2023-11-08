@@ -1,24 +1,21 @@
-const userRepo = require('../repositories/userRepo')
-const passwordHandler = require('../../config/passwordHandler')
-const jwt = require('jsonwebtoken')
-
-const createToken = (payload) => {
-    return jwt.sign(payload, process.env.JWT_SIGNATURE_KEY || "Secret");
-}
+const essayRepo = require('../repositories/essayRepo')
 
 module.exports = {
-    async userLogin(req) {
+    async createEssai(req) {
         try {
-            const username = req.body.username
-            const password = req.body.password
+            const {number, question, value, deadlines, repeat, max_repeat, open} = req.body
 
-            const user = await userRepo.findOne({
+            if (!number){
+                throw new Error("number cannot be empty")
+            } else if(!question){
+                throw new Error("question cannot be empty")
+            } else if (!repeat){
+                
+            }
+
+            const user = await essayRepo.findOne({
                 username: username,
             })
-
-            if (!user){
-                throw new Error('username or password is invalid')
-            }
 
             const isPasswordCorrect = await passwordHandler.checkPassword(user.password, password)
            

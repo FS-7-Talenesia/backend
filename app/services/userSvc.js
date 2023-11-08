@@ -11,17 +11,15 @@ module.exports = {
             const user = await userRepo.findAll()
             
             if(user === null){
-                return{
-                    message: "User not found"
-                } 
+                throw new Error("user not found")
             }
 
-            return { user}
+            return {user}
         } catch (error) {
             return {
                 response: 404,
                 status: "FAIL",
-                message: "User not found",
+                message: "user not found",
                 error: error.message,
             }
         }
@@ -33,9 +31,7 @@ module.exports = {
             const user = await userRepo.findById(id)
             
             if (user === null) {
-                return {
-                    message: "User not found"
-                }
+                throw new Error("user not found")
             }
 
             return { user }
@@ -43,7 +39,7 @@ module.exports = {
             return {
                 response: 404,
                 status: "FAIL",
-                message: "User not found",
+                message: "user not found",
                 error: error.message,
             }
         }
@@ -83,7 +79,7 @@ module.exports = {
             return {
                 response: 400,
                 status: "FAIL",
-                message: "Failed to create user",
+                message: "failed to create user",
                 error: error.message,
             }
         }
@@ -152,7 +148,7 @@ module.exports = {
             return {
                 response: 400,
                 status: "FAIL",
-                message: "Failed to update user",
+                message: "failed to update user",
                 error: error.message,
             }
         }
@@ -185,7 +181,7 @@ module.exports = {
             return {
                 response: 400,
                 status: "FAIL",
-                message: "Failed to delete user",
+                message: "failed to delete user",
                 error: error.message,
             }
         }
