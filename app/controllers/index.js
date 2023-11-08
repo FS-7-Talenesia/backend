@@ -4,6 +4,7 @@ const loginCtrl = require('./loginCtrl')
 const course = require('./course')
 const emailCtrl = require('./emailCtrl')
 const passwordCtrl = require('./passwordCtrl')
+const fileSubmissionCtrl = require('./fileSubmissionCtrl')
 
 module.exports = {
     main,
@@ -11,6 +12,7 @@ module.exports = {
     loginCtrl,
     course,
     emailCtrl,
-    passwordCtrl
+    passwordCtrl,
+    fileSubmissionCtrl,
 }
 
