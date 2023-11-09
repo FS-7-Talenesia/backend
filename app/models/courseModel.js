@@ -22,9 +22,14 @@ const courseSchema = new mongoose.Schema({
     type: boolean,
     required: true,
     default: false,
-  }
-
+  },
+  status: {
+    type: boolean,
+    required: true,
+    default: false,
+  },
 })
+
 
 const course = mongoose.model('course', courseSchema);
 
