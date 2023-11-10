@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const userImgHandler = require('./userImgHandler')
 const authorization = require('../app/services/middleware/userRole')
-const { main, userCtrl, loginCtrl, courses, emailCtrl, passwordCtrl } = require('../app/controllers/index')
+const { main, userCtrl, loginCtrl, courses, emailCtrl, passwordCtrl, moduleCtrl, assignmentCtrl } = require('../app/controllers/index')
 
 //Login
 router.post('/login', loginCtrl.loginHandle)
@@ -36,6 +36,16 @@ router.post('/change-password/:id',
 // router.post('/course', courses.createCourse)
 // router.put('/course/:id', courses.updateCourse)
 // router.delete('/course/:id', courses.deleteCourse)
+
+// module routes
+router.get('/course/:courseId/module/', moduleCtrl.getAllModules)
+router.get('/course/:courseId/module/:moduleId', moduleCtrl.getModuleDetail)
+router.post('/course/:courseId/module', moduleCtrl.createNewModule)
+
+// assignment routes
+router.get('/module/:moduleId/assignment', assignmentCtrl.getAllAssignments)
+router.get('/module/:moduleId/assignment/:assignmentId', assignmentCtrl.getAssignmentDetail)
+router.post('/module/:moduleId/assignment', assignmentCtrl.createNewAssignment)
 
 //api error handler
 router.get('/', main.onUp)
