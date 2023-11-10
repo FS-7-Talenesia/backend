@@ -52,7 +52,9 @@ module.exports = {
 
       await moduleRepo.delete(moduleId);
 
-      return "module deleted"
+      return {
+        message: 'Module successfully deleted'
+      }
     } catch (error) {
       return {
         response: 500,
