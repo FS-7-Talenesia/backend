@@ -7,12 +7,29 @@ module.exports = {
 
       const modules = await moduleRepo.findAll(courseId)
 
-      return modules;
+      return {modules};
     } catch (error) {
       return {
         response: 404,
         status: "FAIL",
         message: "modules not found",
+        error: error.message
+      }
+    }
+  },
+
+  async getModule(req) {
+    try {
+      const { moduleId } = req.params;
+
+      const module = await moduleRepo.findOne(moduleId);
+
+      return { module };
+    } catch (error) {
+      return {
+        response: 404,
+        status: "FAIL",
+        message: "module not found",
         error: error.message
       }
     }
@@ -35,7 +52,7 @@ module.exports = {
         enroll: false
       })
 
-      return module;
+      return {module};
     } catch (error) {
       return {
         response: 404,
@@ -75,7 +92,7 @@ module.exports = {
         enroll
       })
   
-      return enrolledModule
+      return {enrolledModule}
     } catch (error) {
       return {
         response: 500,

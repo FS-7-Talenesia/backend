@@ -1,7 +1,7 @@
 const assignmentRepo = require('../repositories/assignmentRepo');
 
 module.exports = {
-  async getAssignemnts(req) {
+  async getAssignments(req) {
     try {
       const { moduleId } = req.params;
 
