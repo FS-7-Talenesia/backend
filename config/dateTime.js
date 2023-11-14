@@ -7,4 +7,6 @@ function giveCurrentDateTime() {
     
 }
 
-module.exports = giveCurrentDateTime
+module.exports = {
+    giveCurrentDateTime,
+}

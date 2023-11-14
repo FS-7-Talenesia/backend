@@ -1,10 +1,6 @@
 const mongoose = require('mongoose')
 
 const submissionSchema = new mongoose.Schema({
-    value: {
-        type: Number,
-        maxLength: 100,
-    },
     deadlines: {
         type: Date,
     },
@@ -17,10 +13,10 @@ const submissionSchema = new mongoose.Schema({
     open: {
         type: Boolean,
     },
-    user_id: {
+    fileSubmission_id: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-    }
+        ref: 'fileSubmission'
+    }]
 })
 
 const submission = mongoose.model('submission', submissionSchema)

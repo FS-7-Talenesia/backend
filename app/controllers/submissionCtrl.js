@@ -1,7 +1,7 @@
-const { listFile, uploadFile, updateFile, deleteFile } = require('../services/fileSubmissionSvc')
+const { listSubmission, listSubmissionById, createSubmission, updateSubmission, deleteSubmission } = require('../services/submissionSvc')
 
-function listFileHandle(req, res) {
-    listFile(req).then(data => {
+function listSubmissionHandle(req, res) {
+    listSubmission(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
                 response: data.response,
@@ -22,8 +22,8 @@ function listFileHandle(req, res) {
     })
 }
 
-function uploadFileHandle(req, res) {
-    uploadFile(req).then(data => {
+function listSubmissionByIdHandle(req, res) {
+    listSubmissionById(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
                 response: data.response,
@@ -34,7 +34,6 @@ function uploadFileHandle(req, res) {
         } else {
             res.status(200).json({
                 status: "OK",
-                message: "successful upload file",
                 data
             })
         }
@@ -45,8 +44,8 @@ function uploadFileHandle(req, res) {
     })
 }
 
-function updateFileHandle(req, res) {
-    updateFile(req).then(data => {
+function createSubmissionHandle(req, res) {
+    createSubmission(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
                 response: data.response,
@@ -57,7 +56,8 @@ function updateFileHandle(req, res) {
         } else {
             res.status(200).json({
                 status: "OK",
-                message: "successful update file",
+                message: "successful upload Submission",
+                data
             })
         }
     }).catch(error => {
@@ -67,8 +67,8 @@ function updateFileHandle(req, res) {
     })
 }
 
-function deleteFileHandle(req, res) {
-    deleteFile(req).then(data => {
+function updateSubmissionHandle(req, res) {
+    updateSubmission(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
                 response: data.response,
@@ -79,7 +79,29 @@ function deleteFileHandle(req, res) {
         } else {
             res.status(200).json({
                 status: "OK",
-                message: "successful delete file",
+                message: "successful update Submission"
+            })
+        }
+    }).catch(error => {
+        res.status(400).json({
+            error: error.message
+        })
+    })
+}
+
+function deleteSubmissionHandle(req, res) {
+    deleteSubmission(req).then(data => {
+        if (data.response) {
+            res.status(data.response).json({
+                response: data.response,
+                status: data.status,
+                message: data.message,
+                error: data.error
+            })
+        } else {
+            res.status(200).json({
+                status: "OK",
+                message: "successful delete Submission",
             })
         }
     }).catch(error => {
@@ -90,8 +112,9 @@ function deleteFileHandle(req, res) {
 }
 
 module.exports = { 
-    listFileHandle,
-    uploadFileHandle,
-    updateFileHandle,
-    deleteFileHandle, 
+    listSubmissionHandle,
+    listSubmissionByIdHandle,
+    createSubmissionHandle,
+    updateSubmissionHandle,
+    deleteSubmissionHandle, 
 }
