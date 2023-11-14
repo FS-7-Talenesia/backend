@@ -19,7 +19,7 @@ module.exports = {
             return {
                 response: 404,
                 status: "FAIL",
-                message: "user not found",
+                message: "an error has occured",
                 error: error.message,
             }
         }
@@ -39,7 +39,7 @@ module.exports = {
             return {
                 response: 404,
                 status: "FAIL",
-                message: "user not found",
+                message: "an error has occured",
                 error: error.message,
             }
         }

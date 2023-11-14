@@ -12,7 +12,7 @@ function sendEmailVerifyHandle(req, res) {
         } else {
             res.status(200).json({
                 status: "OK",
-                message: "Verification link is sent to the user email",
+                message: "verification link is sent to the user email",
             })
         }
     }).catch(error => {
@@ -34,7 +34,7 @@ function emailVerifyHandle(req, res) {
         } else {
             res.status(200).json({
                 status: "OK",
-                message: "Email has been verified",
+                message: "successful verified email",
             })
         }
     }).catch(error => {
