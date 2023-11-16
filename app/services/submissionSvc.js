@@ -77,9 +77,10 @@ module.exports = {
 
     async updateSubmission(req) {
         try {
+            const id = req.params.id
             const { deadlines, value, repeat, max_repeat, open } = req.body
 
-            const submission = await submissionRepo.create({
+            const submission = await submissionRepo.update(id,{
                 deadlines: deadlines,
                 value: value,
                 repeat: repeat,
