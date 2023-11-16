@@ -1,5 +1,5 @@
 const userRepo = require('../repositories/userRepo')
-const giveCurrentDateTime = require('../../config/dateTime')
+const {giveCurrentDateTime} = require('../../config/dateTime')
 const passwordHandler = require('../../config/passwordHandler')
 const { ref, getDownloadURL, uploadBytesResumable, deleteObject } = require("firebase/storage");
 const storage  = require("../../config/firebaseStorage");
@@ -89,11 +89,8 @@ module.exports = {
         try {
             const id = req.params.id
             const userData = await userRepo.findById(id)
-            const userJSON = JSON.stringify(userData)
-            const userParse = JSON.parse(userJSON)
-            const imageUrl = userParse.img
 
-            if (imageUrl === "/image/default_user_icon.png")
+            if (userData.img === "/image/default_user_icon.png")
             {
                 const dateTime = giveCurrentDateTime()
                 const storageRef = ref(storage, `user_img/${req.file.originalname + "_" + dateTime}`)
@@ -117,7 +114,7 @@ module.exports = {
 
                 return { user }
             } else {
-                const deleteOldImage = ref(storage, `${imageUrl}`)
+                const deleteOldImage = ref(storage, `${userData.img}`)
                 deleteObject(deleteOldImage)
 
                 const dateTime = giveCurrentDateTime()
@@ -157,18 +154,15 @@ module.exports = {
         try {
             const id = req.params.id
             const userData = await userRepo.findById(id)
-            const userJSON = JSON.stringify(userData)
-            const userParse = JSON.parse(userJSON)
-            const imageUrl = userParse.img
 
-            if (imageUrl === "/image/default_user_icon.png"){
+            if (userData.img === "/image/default_user_icon.png"){
                 const user = await userRepo.delete({
                     _id: id
                 })
 
                 return { user }
             } else {
-                const deleteOldImage = ref(storage, `${imageUrl}`)
+                const deleteOldImage = ref(storage, `${userData.img}`)
                 deleteObject(deleteOldImage)
 
                 const user = await userRepo.delete({

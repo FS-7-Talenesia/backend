@@ -6,6 +6,9 @@ const emailCtrl = require('./emailCtrl')
 const passwordCtrl = require('./passwordCtrl')
 const submissionCtrl = require('./submissionCtrl')
 const fileSubmissionCtrl = require('./fileSubmissionCtrl')
+const multipleChoiceBankQuestionCtrl = require('./multipleChoiceBankQuestionCtrl')
+const questionCtrl = require('./questionCtrl')
+const choicesCtrl = require('./choicesCtrl')
 
 module.exports = {
     main,
@@ -16,5 +19,8 @@ module.exports = {
     passwordCtrl,
     submissionCtrl,
     fileSubmissionCtrl,
+    multipleChoiceBankQuestionCtrl,
+    questionCtrl,
+    choicesCtrl
 }
 

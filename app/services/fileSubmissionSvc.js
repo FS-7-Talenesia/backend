@@ -89,7 +89,7 @@ module.exports = {
 
             const fileData = await fileSubmissionRepo.findByUserId(req.user._id)
             console.log(fileData)
-            
+
             if (!fileData) {
                 throw new Error('file not found')
             }
