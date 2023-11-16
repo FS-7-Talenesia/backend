@@ -1,7 +1,7 @@
 const main = require('./main')
 const userCtrl = require('./userCtrl')
 const loginCtrl = require('./loginCtrl')
-const course = require('./course')
+const courseCtrl = require('./courseCtrl')
 const emailCtrl = require('./emailCtrl')
 const passwordCtrl = require('./passwordCtrl')
 const moduleCtrl = require('./moduleCtrl')
@@ -11,7 +11,7 @@ module.exports = {
     main,
     userCtrl,
     loginCtrl,
-    course,
+    courseCtrl,
     emailCtrl,
     passwordCtrl,
     moduleCtrl,

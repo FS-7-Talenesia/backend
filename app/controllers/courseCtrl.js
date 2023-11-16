@@ -1,5 +1,5 @@
 
-const { getCourses, getCourseById, createCourse, updateCourse, deleteCourse } = require('./courseService');
+const { getCourses, getCourseById, createCourse, updateCourse, deleteCourse } = require('../services/courseSvc');
 
 
 function getCoursesHandle(req, res){
@@ -15,6 +15,7 @@ function getCoursesHandle(req, res){
       res.status(200).json({
         status: "OK",
         message: "Courses retrieved successfully",
+        Courses: data,
       })
     }
   }).catch(error => {
@@ -25,6 +26,7 @@ function getCoursesHandle(req, res){
 }
 
 function getCourseByIdHandle(req, res){
+  const courseId = req.params.id;
   getCourseById(req).then(data => {
     if (data.response) {
       res.status(data.response).json({
@@ -37,6 +39,7 @@ function getCourseByIdHandle(req, res){
       res.status(200).json({
         status: "OK",
         message: "Course retrieved successfully",
+        Course: data,
       })
     }
   }).catch(error => {
@@ -44,6 +47,7 @@ function getCourseByIdHandle(req, res){
       error: error.message
     })
   })  
+
 }
 
 function createCourseHandle(req, res){

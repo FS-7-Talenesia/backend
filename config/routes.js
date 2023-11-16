@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const userImgHandler = require('./userImgHandler')
 const authorization = require('../app/services/middleware/userRole')
-const { main, userCtrl, loginCtrl, courses, emailCtrl, passwordCtrl, moduleCtrl, assignmentCtrl } = require('../app/controllers/index')
+const { main, userCtrl, loginCtrl, courseCtrl, emailCtrl, passwordCtrl, moduleCtrl, assignmentCtrl } = require('../app/controllers/index')
 
 //Login
 router.post('/login', loginCtrl.loginHandle)
@@ -34,10 +34,12 @@ router.post('/change-password/:id',
     passwordCtrl.changePasswordHandle)
 
 //courses routes
-// router.get('/course/:id', courses.getCourses)
-// router.post('/course', courses.createCourse)
-// router.put('/course/:id', courses.updateCourse)
-// router.delete('/course/:id', courses.deleteCourse)
+router.get('/course', courseCtrl.getCoursesHandle)
+router.get('/course/:id', courseCtrl.getCourseByIdHandle)
+router.post('/course', courseCtrl.createCourseHandle)
+router.put('/course/:id', courseCtrl.updateCourseHandle)
+router.delete('/course/:id', courseCtrl.deleteCourseHandle)
+
 
 // module routes
 router.get('/course/:courseId/module/', moduleCtrl.getAllModules)
