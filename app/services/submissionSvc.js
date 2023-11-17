@@ -41,15 +41,54 @@ module.exports = {
         }
     },
 
-    async createSubmission(req) {
+    async createSubmissionForFile(req) {
         try {
+            const type_submission = "file submission"
             const {deadlines, repeat, max_repeat, open} = req.body
 
             const d = moment(deadlines, 'YYYY-MM-DD-HH-mm-ss').toDate();
 
             const submission = await submissionRepo.create({
-                deadlines: d ,  
-                repeat: repeat , 
+                type_submission: type_submission,
+                deadlines: d,
+                max_repeat: max_repeat,  
+                repeat: repeat, 
+                open: open
+            })
+
+            if (!submission.repeat) {
+                await submissionRepo.update(submission.id, {
+                    max_repeat: 1
+                })
+            } else {
+                await submissionRepo.update(submission.id, {
+                    max_repeat: max_repeat
+                })
+            }
+
+            return { submission }
+
+        } catch (error) {
+            return {
+                response: 400,
+                status: "FAIL",
+                message: "failed to create file submission",
+                error: error.message,
+            }
+        }
+    },
+
+    async createSubmissionForMultipleChoice(req) {
+        try {
+            const type_submission = "multiple choice submission"
+            const { deadlines, repeat, max_repeat, open } = req.body
+
+            const d = moment(deadlines, 'YYYY-MM-DD-HH-mm-ss').toDate();
+
+            const submission = await submissionRepo.create({
+                type_submission: type_submission,
+                deadlines: d,
+                repeat: repeat,
                 open: open
             })
 
@@ -69,7 +108,7 @@ module.exports = {
             return {
                 response: 400,
                 status: "FAIL",
-                message: "failed to create submission file",
+                message: "failed to create multiple choice submission",
                 error: error.message,
             }
         }

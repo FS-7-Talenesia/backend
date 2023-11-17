@@ -1,4 +1,4 @@
-const { listSubmission, listSubmissionById, createSubmission, updateSubmission, deleteSubmission } = require('../services/submissionSvc')
+const { listSubmission, listSubmissionById, createSubmissionForFile, updateSubmission, deleteSubmission } = require('../services/submissionSvc')
 
 function listSubmissionHandle(req, res) {
     listSubmission(req).then(data => {
@@ -44,8 +44,8 @@ function listSubmissionByIdHandle(req, res) {
     })
 }
 
-function createSubmissionHandle(req, res) {
-    createSubmission(req).then(data => {
+function createSubmissionForFileHandle(req, res) {
+    createSubmissionForFile(req).then(data => {
         if (data.response) {
             res.status(data.response).json({
                 response: data.response,
@@ -114,7 +114,7 @@ function deleteSubmissionHandle(req, res) {
 module.exports = { 
     listSubmissionHandle,
     listSubmissionByIdHandle,
-    createSubmissionHandle,
+    createSubmissionForFileHandle,
     updateSubmissionHandle,
     deleteSubmissionHandle, 
 }

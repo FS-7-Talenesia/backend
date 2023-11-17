@@ -1,6 +1,7 @@
 const userRepo = require('../repositories/userRepo')
 const {giveCurrentDateTime} = require('../../config/dateTime')
 const passwordHandler = require('../../config/passwordHandler')
+const joiSchema = require('../../config/joiSchema')
 const { ref, getDownloadURL, uploadBytesResumable, deleteObject } = require("firebase/storage");
 const storage  = require("../../config/firebaseStorage");
 
@@ -48,32 +49,37 @@ module.exports = {
     async createUser(req) {
         try {
             const img = "/image/default_user_icon.png"
-            const password = await passwordHandler.encryptPassword(req.body.password)
-            const { username, name, age, role, gender, email} = req.body
+            const password = joiSchema.password(req.body.password)
+            const encrypted = await passwordHandler.encryptPassword(password)
+            const email = joiSchema.email(req.body.email)
+            const role = joiSchema.role(req.body.role)
+            const username = joiSchema.username(req.body.username)
+            const name = joiSchema.name(req.body.name)
+            const age = joiSchema.age(req.body.age)
+            const gender = joiSchema.gender(req.body.gender)
 
             const usernameData = await userRepo.findOne({ username: username})
             const emailData = await userRepo.findOne({ email: email })
 
             if (usernameData){
                 throw new Error("Username already exist")
-            } else if (emailData) {
+            } 
+            if (emailData) {
                 throw new Error("Email already exist")
-            }else if (!username || !password || !name || !age || !role || !gender || !email) {
-                throw new Error("Make sure everything is filled in")
-            } else {
-                const user = await userRepo.create({
-                    username: username,
-                    password: password,
-                    name: name,
-                    age: age,
-                    role: role,
-                    gender: gender,
-                    email: email,
-                    img: img
-                })
-
-                return { user }
             }
+
+            const user = await userRepo.create({
+                username: username,
+                password: encrypted,
+                name: name,
+                age: age,
+                role: role,
+                gender: gender,
+                email: email,
+                img: img
+            })
+
+            return { user }
 
         } catch (error) {
             return {
@@ -100,8 +106,11 @@ module.exports = {
                 const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata)
 
                 const img = await getDownloadURL(snapshot.ref)
-
-                const { username, name, age, gender, email } = req.body
+                const email = joiSchema.email(req.body.email)
+                const username = joiSchema.username(req.body.username)
+                const name = joiSchema.name(req.body.name)
+                const age = joiSchema.age(req.body.age)
+                const gender = joiSchema.gender(req.body.gender)
 
                 const user = await userRepo.update(req.params.id, {
                     username: username,
@@ -125,12 +134,14 @@ module.exports = {
                 const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata)
 
                 const img = await getDownloadURL(snapshot.ref)
-
-                const { username, password, name, age, gender, email } = req.body
+                const email = joiSchema.email(req.body.email)
+                const username = joiSchema.username(req.body.username)
+                const name = joiSchema.name(req.body.name)
+                const age = joiSchema.age(req.body.age)
+                const gender = joiSchema.gender(req.body.gender)
 
                 const user = await userRepo.update(req.params.id, {
                     username: username,
-                    password: password,
                     name: name,
                     age: age,
                     gender: gender,

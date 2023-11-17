@@ -49,7 +49,7 @@ router.get('/submission/:id',
     submissionCtrl.listSubmissionByIdHandle)
 router.post('/submission/create',
     authorization.authorizeAdminAndTeacher,
-    submissionCtrl.createSubmissionHandle)
+    submissionCtrl.createSubmissionForFileHandle)
 router.put('/submission/update/:id',
     authorization.authorizeAdminAndTeacher,
     submissionCtrl.updateSubmissionHandle)
@@ -75,38 +75,53 @@ router.delete('/file/delete/:id',
 
 //Multiple choice  bank question
 router.get('/bank-question',
+    authorization.authorizeAdminAndTeacher,
     multipleChoiceBankQuestionCtrl.listBankQuestionHandle)
 router.get('/bank-question/:id',
+    authorization.authorizeAdminAndTeacher,
     multipleChoiceBankQuestionCtrl.findBankQuestionByIdHandle)
 router.post('/bank-question/create/',
+    authorization.authorizeAdminAndTeacher,
     multipleChoiceBankQuestionCtrl.createBankQuestionHandle)
 router.put('/bank-question/update/:id',
+    authorization.authorizeAdminAndTeacher, 
     multipleChoiceBankQuestionCtrl.updateBankQuestionHandle)
 router.delete('/bank-question/delete/:id',
+    authorization.authorizeAdminAndTeacher, 
     multipleChoiceBankQuestionCtrl.deleteBankQuestionHandle)
 
 //Question
 router.get('/question',
+    authorization.authorizeAdminAndTeacher,
     questionCtrl.listQuestionHandle)
 router.get('/question/:id',
+    authorization.authorizeAdminAndTeacher,
     questionCtrl.findQuestionByIdHandle)
 router.post('/question/create/:multiple_choice_question_bank_id',
+    authorization.authorizeAdminAndTeacher,
     questionCtrl.createQuestionHandle)
 router.put('/question/update/:id',
+    authorization.authorizeAdminAndTeacher,
     questionCtrl.updateQuestionHandle)
 router.delete('/question/delete/:id',
+    authorization.authorizeAdminAndTeacher,
     questionCtrl.deleteQuestionHandle)
 
 //Choices
 router.get('/choices',
+    authorization.authorizeAdminAndTeacher,
     choicesCtrl.listChoicesHandle)
 router.get('/choices/:id',
+    authorization.authorizeAdminAndTeacher,
     choicesCtrl.findChoicesByIdHandle)
 router.post('/choices/create/:question_id',
+    authorization.authorizeAdminAndTeacher,
     choicesCtrl.createChoicesHandle)
 router.put('/choices/update/:id',
+    authorization.authorizeAdminAndTeacher,
     choicesCtrl.updateChoicesHandle)
 router.delete('/choices/delete/:id',
+    authorization.authorizeAdminAndTeacher,
     choicesCtrl.deleteChoicesHandle)
 
 // courses routes
