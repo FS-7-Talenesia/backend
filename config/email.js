@@ -3,10 +3,12 @@ require('dotenv').config()
 
 async function sendEmail(user) {
     const transport = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
         auth: {
-            user: process.env.USERNAME,
+            user: process.env.EMAIL,
             pass: process.env.PASSWORD
         }
     })
@@ -29,10 +31,12 @@ async function sendEmail(user) {
 
 async function sendForgot(user) {
     const transport = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
         auth: {
-            user: process.env.USERNAME,
+            user: process.env.EMAIL,
             pass: process.env.PASSWORD
         }
     })

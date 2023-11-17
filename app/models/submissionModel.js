@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 
 const submissionSchema = new mongoose.Schema({
+    type_submission: {
+        type: String
+    },
     deadlines: {
         type: Date,
     },
@@ -16,6 +19,10 @@ const submissionSchema = new mongoose.Schema({
     fileSubmission_id: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'fileSubmission'
+    }],
+    multipleChoiceBankQuestion_id: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'multipleChoiceBankQuestion'
     }]
 })
 

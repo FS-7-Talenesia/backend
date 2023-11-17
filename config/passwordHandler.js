@@ -1,7 +1,6 @@
+const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
 dotenv.config();
-
-const bcrypt = require("bcryptjs");
 
 const encryptPassword = (password) => {
     try {
