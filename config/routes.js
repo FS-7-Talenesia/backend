@@ -9,8 +9,7 @@ const {
         courseCtrl, 
         emailCtrl, 
         passwordCtrl, 
-        moduleCtrl,  
-        assignmentCtrl, 
+        moduleCtrl,   
         submissionCtrl, 
         fileSubmissionCtrl, 
         multipleChoiceBankQuestionCtrl, 
@@ -154,17 +153,6 @@ router.get('/course/:courseId/module/', moduleCtrl.getAllModules)
 router.get('/course/:courseId/module/:moduleId', moduleCtrl.getModuleDetail)
 router.post('/course/:courseId/module', moduleCtrl.createNewModule)
 // router.delete('/course/:courseId/module/:moduleId', moduleCtrl.deleteModule)
-
-// assignment routes
-router.get('/module/:moduleId/assignment', assignmentCtrl.getAllAssignments)
-router.get('/module/:moduleId/assignment/:assignmentId', assignmentCtrl.getAssignmentDetail)
-router.post('/module/:moduleId/assignment', assignmentCtrl.createNewAssignment)
-
-// courses routes
-// router.get('/course/:id', courses.getCourses)
-// router.post('/course', courses.createCourse)
-// router.put('/course/:id', courses.updateCourse)
-// router.delete('/course/:id', courses.deleteCourse)
 
 //api error handler
 router.get('/', main.onUp)
