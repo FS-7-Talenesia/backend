@@ -1,5 +1,6 @@
 
-const { getCourses, getCourseById, createCourse, updateCourse, deleteCourse } = require('../services/courseSvc');
+const { courseStatus } = require('../repositories/courseRepo');
+const { getCourses, getCourseById, createCourse, updateCourse, deleteCourse, enrollCourse, unenrollCourse, completionStatus } = require('../services/courseSvc');
 
 
 function getCoursesHandle(req, res){
@@ -116,6 +117,71 @@ function deleteCourseHandle(req, res){
   })
 }
 
+function unEnrollCourseHandle(req, res){
+  unenrollCourse(req).then(data => {
+    if (data.response) {
+      res.status(data.response).json({
+        response: data.response,
+        status: data.status,
+        message: data.message,
+        error: data.error
+      })
+    } else {
+      res.status(200).json({
+        status: "OK",
+        message: "Course unenrolled successfully",
+      })
+    }
+  }).catch(error => {
+    res.status(400).json({
+      error: error.message
+    })
+  })
+} 
+
+function enrollCourseHandle(req, res){
+  enrollCourse(req).then(data => {
+    if (data.response) {
+      res.status(data.response).json({
+        response: data.response,
+        status: data.status,
+        message: data.message,
+        error: data.error
+      })
+    } else {
+      res.status(200).json({
+        status: "OK",
+        message: "Course enrolled successfully",
+      })
+    }
+  }).catch(error => {
+    res.status(400).json({
+      error: error.message
+    })
+  })
+}
+
+function completeStatusHandle(req, res){
+  completionStatus(req).then(data => {
+    if (data.response) {
+      res.status(data.response).json({
+        response: data.response,
+        status: data.status,
+        message: data.message,
+        error: data.error
+      })
+    } else {
+      res.status(200).json({
+        status: "OK",
+        message: "Course status updated successfully",
+      })
+    }
+  }).catch(error => {
+    res.status(400).json({
+      error: error.message
+    })
+  })
+}
 
 
 
@@ -125,4 +191,7 @@ module.exports = {
   createCourseHandle,
   updateCourseHandle,
   deleteCourseHandle,
+  enrollCourseHandle,
+  completeStatusHandle,
+  unEnrollCourseHandle,
 };

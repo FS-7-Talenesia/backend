@@ -39,12 +39,17 @@ router.get('/course/:id', courseCtrl.getCourseByIdHandle)
 router.post('/course', courseCtrl.createCourseHandle)
 router.put('/course/:id', courseCtrl.updateCourseHandle)
 router.delete('/course/:id', courseCtrl.deleteCourseHandle)
+router.put('/course/:id/enroll', courseCtrl.enrollCourseHandle)
+router.put('/course/:id/unenroll', courseCtrl.unEnrollCourseHandle)
+router.put('/course/:id/complete', courseCtrl.completeStatusHandle)
+// router.delete('/course/:id', courseCtrl.deleteCourseAllHandle)
 
 
 // module routes
 router.get('/course/:courseId/module/', moduleCtrl.getAllModules)
 router.get('/course/:courseId/module/:moduleId', moduleCtrl.getModuleDetail)
 router.post('/course/:courseId/module', moduleCtrl.createNewModule)
+// router.delete('/course/:courseId/module/:moduleId', moduleCtrl.deleteModule)
 
 // assignment routes
 router.get('/module/:moduleId/assignment', assignmentCtrl.getAllAssignments)

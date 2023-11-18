@@ -82,25 +82,53 @@ module.exports = {
     }
   },
 
-  async enrollModule(req) {
-    try {
-      const { moduleId } = req.params;
-      const { enroll } = req.body;
-  
-      const enrolledModule = await moduleRepo.update({
-        moduleId,
-        enroll
-      })
-  
-      return {enrolledModule}
-    } catch (error) {
-      return {
-        response: 500,
-        status: "FAIL",
-        message: "failed to enroll to module",
-        error: error.message
-      }
-    }
-  }
+//   async updateModule(req) {
+//     try {
+//       const {
+//         moduleId,
+//         title,
+//         description,
+//         img,
+//       } = req.body;
 
+//       const module = await moduleRepo.update({
+//         moduleId,
+//         title,
+//         description,
+//         img,
+//       })
+
+//       return {module};
+//     } catch (error) {
+//       return {
+//         response: 500,
+//         status: "FAIL",
+//         message: "failed to update to module",
+//         error: error.message
+//       }
+//     }
+//   },
+
+//   async enrollModule(req) {
+//     try {
+//       const { moduleId } = req.params;
+//       const { enroll } = req.body;
+  
+//       const enrolledModule = await moduleRepo.update({
+//         moduleId,
+//         enroll
+//       })
+  
+//       return {enrolledModule}
+//     } catch (error) {
+//       return {
+//         response: 500,
+//         status: "FAIL",
+//         message: "failed to enroll to module",
+//         error: error.message
+//       }
+//     }
+//   }
+
+// }
 }

@@ -48,7 +48,7 @@ module.exports = {
                 img,
                 instructor,
                 enroll: false,
-                status: false                               ,
+                status: false,
             })
 
             return course;
@@ -90,6 +90,64 @@ module.exports = {
             }
         }
     },
+
+    async enrollCourse(req) {
+        try {
+            const { id } = req.params;
+
+            const course = await courseRepo.enroll(id, {
+                enroll: true,
+            })
+
+            return course;
+        } catch (error) {
+            return {
+                response: 404,
+                status: "FAIL",
+                message: "failed to enroll course",
+                error: error.message
+            }
+        }
+    },
+
+    async unenrollCourse(req) {
+        try {
+            const { id } = req.params;
+
+            const course = await courseRepo.unenroll(id, {
+                enroll: false
+            })
+
+            return course;
+        } catch (error) {
+            return {
+                response: 404,
+                status: "FAIL",
+                message: "failed to unenroll course",
+                error: error.message
+            }
+        }
+    },
+
+    async completionStatus(req) {
+        try {
+            const { id } = req.params;
+
+            const course = await courseRepo.completestatus(id, {
+                completed: true,
+            })
+
+            return course;
+        } catch (error) {
+            return {
+                response: 404,
+                status: "FAIL",
+                message: "failed to completed course",
+                error: error.message
+            }
+        }
+    },
+
     async deleteCourse(req) {
         try {
             const { id } = req.params;

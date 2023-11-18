@@ -23,7 +23,7 @@ const courseSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
-  status: {
+  completed: {
     type: Boolean,
     required: true,
     default: false,
