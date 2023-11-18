@@ -2,6 +2,7 @@ const userRepo = require('../repositories/userRepo')
 const {sendForgot} = require('../../config/email')
 const passwordHandler = require('../../config/passwordHandler')
 const generateRandomToken = require('../../config/generateToken')
+const joiSchema = require('../../config/joiSchema')
 require('dotenv').config()
 
 module.exports = {
@@ -41,8 +42,9 @@ module.exports = {
             if (!userData) {
                 throw new Error('user not found')
             }
-
-            const {password, confirmPassword} = req.body
+            
+            const password = joiSchema.password(req.body.password)
+            const confirmPassword = joiSchema.password(req.body.confirmPassword)
 
             if (password !== confirmPassword){
                 throw new Error('password do not match')
@@ -50,13 +52,15 @@ module.exports = {
                 throw new Error("token is undefined, please generate the token")
             }
 
+            const encrypted = await passwordHandler.encryptPassword(confirmPassword)
+
             const getTime = new Date(userData.token_reset_password_expires)
             const expiresIn = new Date()
             expiresIn.setMinutes(expiresIn.getMinutes() + 15)
-            
+
             if (expiresIn > getTime && req.params.token_reset_password === userData.token_reset_password) {
                 const user = await userRepo.update(userData.id, {
-                    password: await passwordHandler.encryptPassword(confirmPassword),
+                    password: encrypted,
                     $unset: {
                         token_reset_password: 1,
                         token_reset_password_expires: 1,
@@ -79,14 +83,17 @@ module.exports = {
     async changePassword(req) {
         try {
 
-            const { password, confirmPassword } = req.body
+            const password = joiSchema.password(req.body.password)
+            const confirmPassword = joiSchema.password(req.body.confirmPassword)
 
             if (password !== confirmPassword) {
                 throw new Error('password do not match')
             }
 
+            const encrypted = await passwordHandler.encryptPassword(confirmPassword)
+
             const user = await userRepo.update(req.user.id, {
-                password: await passwordHandler.encryptPassword(confirmPassword)
+                password: encrypted
             })
 
             return { user }

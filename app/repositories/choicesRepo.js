@@ -1,34 +1,25 @@
-const user = require('../models/userModel')
+const choices = require('../models/choicesModel')
 
 module.exports = {
-
     findAll() {
         try {
-            return user.find()
+            return choices.find()
         } catch (error) {
-            throw new Error("Data not found", error) 
+            throw new Error("Data not found", error)
         }
     },
-
+    
     findById(id) {
         try {
-            return user.findById({_id:id})
+            return choices.findOne({ _id: id })
         } catch (error) {
             throw new Error("Data not found")
         }
     },
 
-    findOne(Args) {
-        try {
-            return user.findOne(Args);
-        } catch (error) {
-            throw new Error("Data not found");
-        }
-    },
-
     create(Args) {
         try {
-            return user.create(Args)
+            return choices.create(Args)
         } catch (error) {
             throw new Error("Failed create data to database", error)
         }
@@ -36,7 +27,7 @@ module.exports = {
 
     update(id, Args) {
         try {
-            return user.updateOne({_id:id}, Args)
+            return choices.updateOne({ _id: id }, Args)
         } catch (error) {
             throw new Error("Failed update data to database", error)
         }
@@ -44,7 +35,7 @@ module.exports = {
 
     delete(id) {
         try {
-            return user.deleteOne({_id:id})
+            return choices.deleteOne({ _id: id })
         } catch (error) {
             throw new Error("Failed delete data to database", error)
         }

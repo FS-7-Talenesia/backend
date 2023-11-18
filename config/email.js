@@ -3,10 +3,12 @@ require('dotenv').config()
 
 async function sendEmail(user) {
     const transport = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
         auth: {
-            user: process.env.USERNAME,
+            user: process.env.EMAIL,
             pass: process.env.PASSWORD
         }
     })
@@ -19,8 +21,8 @@ async function sendEmail(user) {
         `
             <p>Hi ${user.email},</p>
             <p>Please click the following link to verify your email:</p>
-            <p><a href="http://localhost:8000/email-verify/${user.token_email_verify}">http://localhost:8000/email-verify/${user.token_email_verify}</a></p>
-            <p>The link will expire in thirty minutes.</p>
+            <p><a href="http://localhost:8000/email/verify/${user.token_email_verify}">http://localhost:8000/email/verify/${user.token_email_verify}</a></p>
+            <p>The link will expire in fifteen minutes.</p>
         `,
     }
 
@@ -29,10 +31,12 @@ async function sendEmail(user) {
 
 async function sendForgot(user) {
     const transport = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
         auth: {
-            user: process.env.USERNAME,
+            user: process.env.EMAIL,
             pass: process.env.PASSWORD
         }
     })
@@ -45,8 +49,8 @@ async function sendForgot(user) {
             `
             <p>Hi ${user.email},</p>
             <p>Please click the following link to create new password:</p>
-            <p><a href="http://localhost:8000/change-password/${user.token_reset_password}">http://localhost:8000/change-password/${user.token_reset_password}</a></p>
-            <p>The link will expire in thirty minutes.</p>
+            <p><a href="http://localhost:8000/change/password/${user.token_reset_password}">http://localhost:8000/change/password/${user.token_reset_password}</a></p>
+            <p>The link will expire in fifteen minutes.</p>
         `,
     }
 

@@ -16,6 +16,10 @@ module.exports = {
                 username: username,
             })
 
+            if (!user){
+                throw new Error('username or password is invalid')
+            }
+
             const isPasswordCorrect = await passwordHandler.checkPassword(user.password, password)
            
             if (isPasswordCorrect) {    

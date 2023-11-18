@@ -1,6 +1,7 @@
 const userRepo = require('../repositories/userRepo')
-const giveCurrentDateTime = require('../../config/dateTime')
+const {giveCurrentDateTime} = require('../../config/dateTime')
 const passwordHandler = require('../../config/passwordHandler')
+const joiSchema = require('../../config/joiSchema')
 const { ref, getDownloadURL, uploadBytesResumable, deleteObject } = require("firebase/storage");
 const storage  = require("../../config/firebaseStorage");
 
@@ -11,17 +12,15 @@ module.exports = {
             const user = await userRepo.findAll()
             
             if(user === null){
-                return{
-                    message: "User not found"
-                } 
+                throw new Error("user not found")
             }
 
-            return { user}
+            return {user}
         } catch (error) {
             return {
                 response: 404,
                 status: "FAIL",
-                message: "User not found",
+                message: "an error has occured",
                 error: error.message,
             }
         }
@@ -33,9 +32,7 @@ module.exports = {
             const user = await userRepo.findById(id)
             
             if (user === null) {
-                return {
-                    message: "User not found"
-                }
+                throw new Error("user not found")
             }
 
             return { user }
@@ -43,7 +40,7 @@ module.exports = {
             return {
                 response: 404,
                 status: "FAIL",
-                message: "User not found",
+                message: "an error has occured",
                 error: error.message,
             }
         }
@@ -52,38 +49,43 @@ module.exports = {
     async createUser(req) {
         try {
             const img = "/image/default_user_icon.png"
-            const password = await passwordHandler.encryptPassword(req.body.password)
-            const { username, name, age, role, gender, email} = req.body
+            const password = joiSchema.password(req.body.password)
+            const encrypted = await passwordHandler.encryptPassword(password)
+            const email = joiSchema.email(req.body.email)
+            const role = joiSchema.role(req.body.role)
+            const username = joiSchema.username(req.body.username)
+            const name = joiSchema.name(req.body.name)
+            const age = joiSchema.age(req.body.age)
+            const gender = joiSchema.gender(req.body.gender)
 
             const usernameData = await userRepo.findOne({ username: username})
             const emailData = await userRepo.findOne({ email: email })
 
             if (usernameData){
                 throw new Error("Username already exist")
-            } else if (emailData) {
+            } 
+            if (emailData) {
                 throw new Error("Email already exist")
-            }else if (!username || !password || !name || !age || !role || !gender || !email) {
-                throw new Error("Make sure everything is filled in")
-            } else {
-                const user = await userRepo.create({
-                    username: username,
-                    password: password,
-                    name: name,
-                    age: age,
-                    role: role,
-                    gender: gender,
-                    email: email,
-                    img: img
-                })
-
-                return { user }
             }
+
+            const user = await userRepo.create({
+                username: username,
+                password: encrypted,
+                name: name,
+                age: age,
+                role: role,
+                gender: gender,
+                email: email,
+                img: img
+            })
+
+            return { user }
 
         } catch (error) {
             return {
                 response: 400,
                 status: "FAIL",
-                message: "Failed to create user",
+                message: "failed to create user",
                 error: error.message,
             }
         }
@@ -93,11 +95,8 @@ module.exports = {
         try {
             const id = req.params.id
             const userData = await userRepo.findById(id)
-            const userJSON = JSON.stringify(userData)
-            const userParse = JSON.parse(userJSON)
-            const imageUrl = userParse.img
 
-            if (imageUrl === "/image/default_user_icon.png")
+            if (userData.img === "/image/default_user_icon.png")
             {
                 const dateTime = giveCurrentDateTime()
                 const storageRef = ref(storage, `user_img/${req.file.originalname + "_" + dateTime}`)
@@ -108,7 +107,11 @@ module.exports = {
 
                 const img = await getDownloadURL(snapshot.ref)
 
-                const { username, name, age, gender, email } = req.body
+                const email = joiSchema.email(req.body.email)
+                const username = joiSchema.username(req.body.username)
+                const name = joiSchema.name(req.body.name)
+                const age = joiSchema.age(req.body.age)
+                const gender = joiSchema.gender(req.body.gender)
 
                 const user = await userRepo.update(req.params.id, {
                     username: username,
@@ -121,7 +124,7 @@ module.exports = {
 
                 return { user }
             } else {
-                const deleteOldImage = ref(storage, `${imageUrl}`)
+                const deleteOldImage = ref(storage, `${userData.img}`)
                 deleteObject(deleteOldImage)
 
                 const dateTime = giveCurrentDateTime()
@@ -132,12 +135,14 @@ module.exports = {
                 const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata)
 
                 const img = await getDownloadURL(snapshot.ref)
-
-                const { username, password, name, age, gender, email } = req.body
+                const email = joiSchema.email(req.body.email)
+                const username = joiSchema.username(req.body.username)
+                const name = joiSchema.name(req.body.name)
+                const age = joiSchema.age(req.body.age)
+                const gender = joiSchema.gender(req.body.gender)
 
                 const user = await userRepo.update(req.params.id, {
                     username: username,
-                    password: password,
                     name: name,
                     age: age,
                     gender: gender,
@@ -152,7 +157,7 @@ module.exports = {
             return {
                 response: 400,
                 status: "FAIL",
-                message: "Failed to update user",
+                message: "failed to update user",
                 error: error.message,
             }
         }
@@ -161,18 +166,15 @@ module.exports = {
         try {
             const id = req.params.id
             const userData = await userRepo.findById(id)
-            const userJSON = JSON.stringify(userData)
-            const userParse = JSON.parse(userJSON)
-            const imageUrl = userParse.img
 
-            if (imageUrl === "/image/default_user_icon.png"){
+            if (userData.img === "/image/default_user_icon.png"){
                 const user = await userRepo.delete({
                     _id: id
                 })
 
                 return { user }
             } else {
-                const deleteOldImage = ref(storage, `${imageUrl}`)
+                const deleteOldImage = ref(storage, `${userData.img}`)
                 deleteObject(deleteOldImage)
 
                 const user = await userRepo.delete({
@@ -185,7 +187,7 @@ module.exports = {
             return {
                 response: 400,
                 status: "FAIL",
-                message: "Failed to delete user",
+                message: "failed to delete user",
                 error: error.message,
             }
         }

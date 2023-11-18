@@ -33,6 +33,10 @@ function authorizeAll(req, res, next) {
     authorize(req, res, next, ["admin", "teacher", "student"])
 }
 
+function authorizeAdminAndTeacher(req, res, next) {
+    authorize(req, res, next, ["admin", "teacher"])
+}
+
 function authorizeAdmin(req, res, next) {
     authorize(req, res, next, ["admin"])
 }
@@ -47,6 +51,7 @@ function authorizeStudent(req, res, next) {
 
 module.exports = {
     authorizeAll,
+    authorizeAdminAndTeacher,
     authorizeAdmin,
     authorizeTeacher,
     authorizeStudent
