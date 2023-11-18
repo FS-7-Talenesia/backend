@@ -2,7 +2,21 @@ const express = require('express')
 const router = express.Router()
 const fileHandler = require('./fileHandler')
 const authorization = require('../app/services/middleware/userRole')
-const { main, userCtrl, loginCtrl, coursesCtrl, emailCtrl, passwordCtrl, modulCtrl,  assignmentCtrl, submissionCtrl, fileSubmissionCtrl, multipleChoiceBankQuestionCtrl, questionCtrl, choicesCtrl } = require('../app/controllers/index')
+const { 
+        main, 
+        userCtrl, 
+        loginCtrl, 
+        courseCtrl, 
+        emailCtrl, 
+        passwordCtrl, 
+        moduleCtrl,  
+        assignmentCtrl, 
+        submissionCtrl, 
+        fileSubmissionCtrl, 
+        multipleChoiceBankQuestionCtrl, 
+        questionCtrl, 
+        choicesCtrl 
+    } = require('../app/controllers/index')
 
 //Login
 router.post('/login', loginCtrl.loginHandle)
