@@ -106,6 +106,7 @@ module.exports = {
                 const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata)
 
                 const img = await getDownloadURL(snapshot.ref)
+
                 const email = joiSchema.email(req.body.email)
                 const username = joiSchema.username(req.body.username)
                 const name = joiSchema.name(req.body.name)

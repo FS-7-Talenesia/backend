@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const fileHandler = require('./fileHandler')
 const authorization = require('../app/services/middleware/userRole')
-const { main, userCtrl, loginCtrl, courses, emailCtrl, passwordCtrl, submissionCtrl, fileSubmissionCtrl, multipleChoiceBankQuestionCtrl, questionCtrl, choicesCtrl } = require('../app/controllers/index')
+const { main, userCtrl, loginCtrl, coursesCtrl, emailCtrl, passwordCtrl, modulCtrl,  assignmentCtrl, submissionCtrl, fileSubmissionCtrl, multipleChoiceBankQuestionCtrl, questionCtrl, choicesCtrl } = require('../app/controllers/index')
 
 //Login
 router.post('/login', loginCtrl.loginHandle)
@@ -123,6 +123,28 @@ router.put('/choices/update/:id',
 router.delete('/choices/delete/:id',
     authorization.authorizeAdminAndTeacher,
     choicesCtrl.deleteChoicesHandle)
+
+//courses routes
+router.get('/course', courseCtrl.getCoursesHandle)
+router.get('/course/:id', courseCtrl.getCourseByIdHandle)
+router.post('/course', courseCtrl.createCourseHandle)
+router.put('/course/:id', courseCtrl.updateCourseHandle)
+router.delete('/course/:id', courseCtrl.deleteCourseHandle)
+router.put('/course/:id/enroll', courseCtrl.enrollCourseHandle)
+router.put('/course/:id/unenroll', courseCtrl.unEnrollCourseHandle)
+router.put('/course/:id/complete', courseCtrl.completeStatusHandle)
+// router.delete('/course/:id', courseCtrl.deleteCourseAllHandle)
+
+// module routes
+router.get('/course/:courseId/module/', moduleCtrl.getAllModules)
+router.get('/course/:courseId/module/:moduleId', moduleCtrl.getModuleDetail)
+router.post('/course/:courseId/module', moduleCtrl.createNewModule)
+// router.delete('/course/:courseId/module/:moduleId', moduleCtrl.deleteModule)
+
+// assignment routes
+router.get('/module/:moduleId/assignment', assignmentCtrl.getAllAssignments)
+router.get('/module/:moduleId/assignment/:assignmentId', assignmentCtrl.getAssignmentDetail)
+router.post('/module/:moduleId/assignment', assignmentCtrl.createNewAssignment)
 
 // courses routes
 // router.get('/course/:id', courses.getCourses)

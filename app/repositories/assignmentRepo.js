@@ -10,11 +10,10 @@ module.exports = {
     }
   },
 
-  findOne(moduleId, assignmentId) {
+  findOne(assignmentId) {
     try {
       return assignment.findOne({
         _id: assignmentId,
-        module_id: moduleId,
       })
     } catch (error) {
       throw new Error('Failed to get assignment', error)

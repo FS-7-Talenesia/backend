@@ -7,12 +7,29 @@ module.exports = {
 
       const modules = await moduleRepo.findAll(courseId)
 
-      return modules;
+      return {modules};
     } catch (error) {
       return {
         response: 404,
         status: "FAIL",
         message: "modules not found",
+        error: error.message
+      }
+    }
+  },
+
+  async getModule(req) {
+    try {
+      const { moduleId } = req.params;
+
+      const module = await moduleRepo.findOne(moduleId);
+
+      return { module };
+    } catch (error) {
+      return {
+        response: 404,
+        status: "FAIL",
+        message: "module not found",
         error: error.message
       }
     }
@@ -35,7 +52,7 @@ module.exports = {
         enroll: false
       })
 
-      return module;
+      return {module};
     } catch (error) {
       return {
         response: 404,
@@ -52,7 +69,9 @@ module.exports = {
 
       await moduleRepo.delete(moduleId);
 
-      return "module deleted"
+      return {
+        message: 'Module successfully deleted'
+      }
     } catch (error) {
       return {
         response: 500,
@@ -63,25 +82,53 @@ module.exports = {
     }
   },
 
-  async enrollModule(req) {
-    try {
-      const { moduleId } = req.params;
-      const { enroll } = req.body;
-  
-      const enrolledModule = await moduleRepo.update({
-        moduleId,
-        enroll
-      })
-  
-      return enrolledModule
-    } catch (error) {
-      return {
-        response: 500,
-        status: "FAIL",
-        message: "failed to enroll to module",
-        error: error.message
-      }
-    }
-  }
+//   async updateModule(req) {
+//     try {
+//       const {
+//         moduleId,
+//         title,
+//         description,
+//         img,
+//       } = req.body;
 
+//       const module = await moduleRepo.update({
+//         moduleId,
+//         title,
+//         description,
+//         img,
+//       })
+
+//       return {module};
+//     } catch (error) {
+//       return {
+//         response: 500,
+//         status: "FAIL",
+//         message: "failed to update to module",
+//         error: error.message
+//       }
+//     }
+//   },
+
+//   async enrollModule(req) {
+//     try {
+//       const { moduleId } = req.params;
+//       const { enroll } = req.body;
+  
+//       const enrolledModule = await moduleRepo.update({
+//         moduleId,
+//         enroll
+//       })
+  
+//       return {enrolledModule}
+//     } catch (error) {
+//       return {
+//         response: 500,
+//         status: "FAIL",
+//         message: "failed to enroll to module",
+//         error: error.message
+//       }
+//     }
+//   }
+
+// }
 }
