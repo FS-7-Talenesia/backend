@@ -14,7 +14,8 @@ const {
         fileSubmissionCtrl, 
         multipleChoiceBankQuestionCtrl, 
         questionCtrl, 
-        choicesCtrl 
+        choicesCtrl,
+        multipleChoiceGradeCtrl 
     } = require('../app/controllers/index')
 
 //Login
@@ -136,6 +137,23 @@ router.put('/choices/update/:id',
 router.delete('/choices/delete/:id',
     authorization.authorizeAdminAndTeacher,
     choicesCtrl.deleteChoicesHandle)
+
+//Multiple choice grade
+router.get('/grade',
+    authorization.authorizeAll,
+    multipleChoiceGradeCtrl.listMultipleChoiceGradeHandle)
+router.get('/grade/:id',
+    authorization.authorizeAll,
+    multipleChoiceGradeCtrl.findMultipleChoiceGradeByIdHandle)
+router.post('/grade/create/',
+    authorization.authorizeAll,
+    multipleChoiceGradeCtrl.createMultipleChoiceGradeHandle)
+router.put('/grade/update/:id',
+    authorization.authorizeAll,
+    multipleChoiceGradeCtrl.updateMultipleChoiceGradeHandle)
+router.delete('/grade/delete/:id',
+    authorization.authorizeAdminAndTeacher,
+    multipleChoiceGradeCtrl.deleteMultipleChoiceGradeHandle)
 
 //courses routes
 router.get('/course', courseCtrl.getCoursesHandle)
