@@ -45,7 +45,7 @@ module.exports = {
             
             const password = joiSchema.password(req.body.password)
             const confirmPassword = joiSchema.password(req.body.confirmPassword)
-
+            
             if (password !== confirmPassword){
                 throw new Error('password do not match')
             } else if (userData.token_reset_password === undefined) {
@@ -74,7 +74,7 @@ module.exports = {
             return {
                 response: 400,
                 status: "FAIL",
-                message: "the token has expired, please generate the token",
+                message: "an error has occured",
                 error: error.message
             }
         }
@@ -85,7 +85,7 @@ module.exports = {
 
             const password = joiSchema.password(req.body.password)
             const confirmPassword = joiSchema.password(req.body.confirmPassword)
-
+        
             if (password !== confirmPassword) {
                 throw new Error('password do not match')
             }
