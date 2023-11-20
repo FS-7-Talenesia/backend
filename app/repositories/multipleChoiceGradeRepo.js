@@ -1,25 +1,23 @@
-const choices = require('../models/choicesModel')
+const multipleChoiceGrade = require('../models/multipleChoiceGradeModel')
 
 module.exports = {
     findAll() {
         try {
-            return choices.find()
+            return multipleChoiceGrade.find()
         } catch (error) {
             throw new Error("Data not found", error)
         }
     },
 
-    find() {
-        try {
-            return choices.find()
-        } catch (error) {
-            throw new Error("Data not found", error)
-        }
-    },
-    
     findById(id) {
         try {
-            return choices.findOne({ _id: id })
+            return multipleChoiceGrade.findOne({ _id: id }).populate({
+                path: 'question_id',
+                populate: {
+                    path: 'choices_id',
+                    model: 'choices'
+                }
+            })
         } catch (error) {
             throw new Error("Data not found")
         }
@@ -27,7 +25,7 @@ module.exports = {
 
     create(Args) {
         try {
-            return choices.create(Args)
+            return multipleChoiceGrade.create(Args)
         } catch (error) {
             throw new Error("Failed create data to database", error)
         }
@@ -35,7 +33,7 @@ module.exports = {
 
     update(id, Args) {
         try {
-            return choices.updateOne({ _id: id }, Args)
+            return multipleChoiceGrade.updateOne({ _id: id }, Args)
         } catch (error) {
             throw new Error("Failed update data to database", error)
         }
@@ -43,7 +41,7 @@ module.exports = {
 
     delete(id) {
         try {
-            return choices.deleteOne({ _id: id })
+            return multipleChoiceGrade.deleteOne({ _id: id })
         } catch (error) {
             throw new Error("Failed delete data to database", error)
         }

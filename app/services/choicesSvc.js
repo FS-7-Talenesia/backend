@@ -43,12 +43,13 @@ module.exports = {
 
     async createChoices(req) {
         try {
-            const {letter, answer_text, correct} = req.body
+            const {letter, answer_text, correct, value} = req.body
 
             const choices = await choicesRepo.create({
                 letter: letter,
                 answer_text: answer_text,
-                correct: correct
+                correct: correct,
+                value: value
             })
             
             await questionRepo.update(req.params.question_id,
@@ -71,12 +72,13 @@ module.exports = {
     async updateChoices(req) {
         try {
             const choicesId = req.params.id
-            const {letter, choices_text, correct} = req.body
+            const {letter, choices_text, correct, value } = req.body
 
             const choices = await choicesRepo.update(choicesId, {
                 letter: letter,
                 choices_text: choices_text,
-                correct: correct
+                correct: correct,
+                value: value
             })
 
             return { choices }

@@ -12,7 +12,6 @@ const multipleChoiceQuestionBankSchema = new mongoose.Schema({
             ref: 'choices',
         }]
     }],
-    
 })
 
 const multipleChoiceQuestionBank = mongoose.model('multipleChoiceQuestionBank', multipleChoiceQuestionBankSchema)

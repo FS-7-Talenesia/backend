@@ -10,6 +10,9 @@ const choicesSchema = new mongoose.Schema({
     correct: {
         type: Boolean
     },
+    value: {
+        type: Number
+    }
 })
 
 const choices = mongoose.model('choices', choicesSchema)
