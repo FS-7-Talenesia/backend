@@ -72,8 +72,8 @@ router.delete('/submission/delete/:id',
     submissionCtrl.deleteSubmissionHandle)
 
 //File submission
-router.get('/file/list',
-    authorization.authorizeAll,
+router.get('/file',
+    authorization.authorizeAdminAndTeacher,
     fileSubmissionCtrl.listFileHandle)
 router.post('/file/upload/submission/:submission_id',
     authorization.authorizeAll,
