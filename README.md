@@ -41,6 +41,7 @@ The following technologies are used in the project:
 This is the list of available scripts that you can run in the project directory:
 ```
 npm start
+npm run seed:user
 ```
 
 ## Project Structure
@@ -80,6 +81,9 @@ Before getting started, make sure you have the following installed:
 ```
 username: admin
 Password: admin2023
+
+username: kane
+Password: adminkane
 ```
 
 1. Clone the repository:
