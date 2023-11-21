@@ -2,7 +2,21 @@ const express = require('express')
 const router = express.Router()
 const fileHandler = require('./fileHandler')
 const authorization = require('../app/services/middleware/userRole')
-const { main, userCtrl, loginCtrl, coursesCtrl, emailCtrl, passwordCtrl, modulCtrl,  assignmentCtrl, submissionCtrl, fileSubmissionCtrl, multipleChoiceBankQuestionCtrl, questionCtrl, choicesCtrl } = require('../app/controllers/index')
+const { 
+        main, 
+        userCtrl, 
+        loginCtrl, 
+        courseCtrl,
+        moduleCtrl,
+        emailCtrl, 
+        passwordCtrl,
+        submissionCtrl, 
+        fileSubmissionCtrl, 
+        multipleChoiceBankQuestionCtrl, 
+        questionCtrl, 
+        choicesCtrl,
+        multipleChoiceGradeCtrl 
+    } = require('../app/controllers/index')
 
 //Login
 router.post('/login', loginCtrl.loginHandle)
@@ -58,8 +72,8 @@ router.delete('/submission/delete/:id',
     submissionCtrl.deleteSubmissionHandle)
 
 //File submission
-router.get('/file/list',
-    authorization.authorizeAll,
+router.get('/file',
+    authorization.authorizeAdminAndTeacher,
     fileSubmissionCtrl.listFileHandle)
 router.post('/file/upload/submission/:submission_id',
     authorization.authorizeAll,
@@ -124,33 +138,49 @@ router.delete('/choices/delete/:id',
     authorization.authorizeAdminAndTeacher,
     choicesCtrl.deleteChoicesHandle)
 
+//Multiple choice grade
+router.get('/grade',
+    authorization.authorizeAll,
+    multipleChoiceGradeCtrl.listMultipleChoiceGradeHandle)
+router.get('/grade/:id',
+    authorization.authorizeAll,
+    multipleChoiceGradeCtrl.findMultipleChoiceGradeByIdHandle)
+router.post('/grade/create/',
+    authorization.authorizeAll,
+    multipleChoiceGradeCtrl.createMultipleChoiceGradeHandle)
+router.put('/grade/update/:id',
+    authorization.authorizeAll,
+    multipleChoiceGradeCtrl.updateMultipleChoiceGradeHandle)
+router.delete('/grade/delete/:id',
+    authorization.authorizeAdminAndTeacher,
+    multipleChoiceGradeCtrl.deleteMultipleChoiceGradeHandle)
+
 //courses routes
-router.get('/course', courseCtrl.getCoursesHandle)
-router.get('/course/:id', courseCtrl.getCourseByIdHandle)
-router.post('/course', courseCtrl.createCourseHandle)
-router.put('/course/:id', courseCtrl.updateCourseHandle)
-router.delete('/course/:id', courseCtrl.deleteCourseHandle)
-router.put('/course/:id/enroll', courseCtrl.enrollCourseHandle)
-router.put('/course/:id/unenroll', courseCtrl.unEnrollCourseHandle)
-router.put('/course/:id/complete', courseCtrl.completeStatusHandle)
+router.get('/course', authorization.authorizeAll,
+courseCtrl.getCoursesHandle)
+router.get('/course/:id', authorization.authorizeAll,
+courseCtrl.getCourseByIdHandle)
+router.post('/course', authorization.authorizeAdmin,
+courseCtrl.createCourseHandle)
+router.put('/course/:id', authorization.authorizeAdmin,
+courseCtrl.updateCourseHandle)
+router.delete('/course/:id', authorization.authorizeAdmin,
+courseCtrl.deleteCourseHandle)
+router.put('/user/:userId/course/:courseId/enroll', courseCtrl.enrollCourseHandle)
+router.put('/user/:userId/course/:courseId/unenroll', courseCtrl.unenrollCourseHandle)
+router.put('/user/:userId/course/:courseId/complete', courseCtrl.completeStatusHandle)
 // router.delete('/course/:id', courseCtrl.deleteCourseAllHandle)
 
 // module routes
-router.get('/course/:courseId/module/', moduleCtrl.getAllModules)
-router.get('/course/:courseId/module/:moduleId', moduleCtrl.getModuleDetail)
-router.post('/course/:courseId/module', moduleCtrl.createNewModule)
-// router.delete('/course/:courseId/module/:moduleId', moduleCtrl.deleteModule)
+router.get('/course/:courseId/module/', authorization.authorizeAll,
+moduleCtrl.getAllModulesHandle)
+router.get('/course/:courseId/module/:moduleId', authorization.authorizeAll,
+moduleCtrl.getModuleByIdHandle)
+router.post('/course/:courseId/module', authorization.authorizeAdminAndTeacher,
+moduleCtrl.createModuleHandle)
+router.delete('/course/:courseId/module/:moduleId', authorization.authorizeAdminAndTeacher, 
+moduleCtrl.deleteModuleHandle)
 
-// assignment routes
-router.get('/module/:moduleId/assignment', assignmentCtrl.getAllAssignments)
-router.get('/module/:moduleId/assignment/:assignmentId', assignmentCtrl.getAssignmentDetail)
-router.post('/module/:moduleId/assignment', assignmentCtrl.createNewAssignment)
-
-// courses routes
-// router.get('/course/:id', courses.getCourses)
-// router.post('/course', courses.createCourse)
-// router.put('/course/:id', courses.updateCourse)
-// router.delete('/course/:id', courses.deleteCourse)
 
 //api error handler
 router.get('/', main.onUp)

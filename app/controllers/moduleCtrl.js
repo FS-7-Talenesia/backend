@@ -1,13 +1,70 @@
-const moduleService = require('../services/moduleSvc');
+const { defaultFormat } = require('moment');
+const { getModules, getModule, createModule, deleteModule} = require('../services/moduleSvc');
 
-function getAllModules(req, res) {
-  moduleService.getModules(req).then((data) => {
-    res.status(200).json({
-      response: data.response,
-      status: data.status,
-      message: data.message,
-      error: data.error
+function getAllModulesHandle(req, res) {
+  getModules(req).then((data) => { 
+    if (data.response) {
+      res.status(data.response).json({
+        response: data.response,
+        status: data.status,
+        message: data.message,
+        error: data.error
+      })
+    }
+    else {
+      res.status(200).json({
+        status: "OK",
+        message: "Modules retrieved successfully",
+        data: data
+      })
+    }
+  }
+  ).catch((error) => {
+    res.status(400).json({
+      error: error.message
     })
+  })
+} 
+
+function getModuleByIdHandle(req, res) {
+    getModule(req).then((data) => {
+        if (data.response) {
+        res.status(data.response).json({
+            response: data.response,
+            status: data.status,
+            message: data.message,
+            error: data.error
+        })
+        } else {
+        res.status(200).json({
+            status: "OK",
+            message: "Module retrieved successfully",
+            data: data
+        })
+        }
+    }).catch((error) => {
+        res.status(400).json({
+        error: error.message
+        })
+    })
+}
+
+function createModuleHandle(req, res) {
+  createModule(req).then((data) => {
+    if (data.response) {
+      res.status(data.response).json({
+        response: data.response,
+        status: data.status,
+        message: data.message,
+        error: data.error
+      })
+    } else {
+      res.status(200).json({
+        status: "OK",
+        message: "Module created successfully",
+        data: data
+      })
+    }
   }).catch((error) => {
     res.status(400).json({
       error: error.message
@@ -15,14 +72,22 @@ function getAllModules(req, res) {
   })
 }
 
-function getModuleDetail(req, res) {
-  moduleService.getModule(req).then((data) => {
-    res.status(200).json({
-      response: data.response,
-      status: data.status,
-      message: data.message,
-      error: data.error
-    })
+function deleteModuleHandle(req, res) {
+  deleteModule(req).then((data) => {
+    if (data.response) {
+      res.status(data.response).json({
+        response: data.response,
+        status: data.status,
+        message: data.message,
+        error: data.error
+      })
+    } else {
+      res.status(200).json({
+        status: "OK",
+        message: "Module deleted successfully",
+        data: data
+      })
+    }
   }).catch((error) => {
     res.status(400).json({
       error: error.message
@@ -30,56 +95,12 @@ function getModuleDetail(req, res) {
   })
 }
 
-function createNewModule(req, res) {
-  moduleService.createModule(req).then((data) => {
-    res.status(200).json({
-      response: data.response,
-      status: data.status,
-      message: data.message,
-      error: data.error
-    })
-  }).catch((error) => {
-    res.status(400).json({
-      error: error.message
-    })
-  })
-}
 
-// function deleteModule(req, res) {
-//   moduleService.deleteModule(req).then((data) => {
-//     res.status(200).json({
-//       response: data.response,
-//       status: data.status,
-//       message: data.message,
-//       error: data.error
-//     })
-//   }).catch((error) => {
-//     res.status(400).json({
-//       error: error.message
-//     })
-//   })
-// }
-
-// function updateModule(req, res) {
-//   moduleService.updateModule(req).then((data) => {
-//     res.status(200).json({
-//       response: data.response,
-//       status: data.status,
-//       message: data.message,
-//       error: data.error
-//     })
-//   }).catch((error) => {
-//     res.status(400).json({
-//       error: error.message
-//     })
-//   })
-// }
 
 
 module.exports = {
-  getAllModules,
-  getModuleDetail,
-  createNewModule,
-  // deleteModule,
-  // updateModule
+  getAllModulesHandle,
+  getModuleByIdHandle,
+  createModuleHandle,
+  deleteModuleHandle,
 }
