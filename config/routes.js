@@ -6,10 +6,10 @@ const {
         main, 
         userCtrl, 
         loginCtrl, 
-        courseCtrl, 
+        courseCtrl,
+        moduleCtrl,
         emailCtrl, 
-        passwordCtrl, 
-        moduleCtrl,   
+        passwordCtrl,
         submissionCtrl, 
         fileSubmissionCtrl, 
         multipleChoiceBankQuestionCtrl, 
@@ -156,21 +156,31 @@ router.delete('/grade/delete/:id',
     multipleChoiceGradeCtrl.deleteMultipleChoiceGradeHandle)
 
 //courses routes
-router.get('/course', courseCtrl.getCoursesHandle)
-router.get('/course/:id', courseCtrl.getCourseByIdHandle)
-router.post('/course', courseCtrl.createCourseHandle)
-router.put('/course/:id', courseCtrl.updateCourseHandle)
-router.delete('/course/:id', courseCtrl.deleteCourseHandle)
-router.put('/course/:id/enroll', courseCtrl.enrollCourseHandle)
-router.put('/course/:id/unenroll', courseCtrl.unEnrollCourseHandle)
-router.put('/course/:id/complete', courseCtrl.completeStatusHandle)
+router.get('/course', authorization.authorizeAll,
+courseCtrl.getCoursesHandle)
+router.get('/course/:id', authorization.authorizeAll,
+courseCtrl.getCourseByIdHandle)
+router.post('/course', authorization.authorizeAdmin,
+courseCtrl.createCourseHandle)
+router.put('/course/:id', authorization.authorizeAdmin,
+courseCtrl.updateCourseHandle)
+router.delete('/course/:id', authorization.authorizeAdmin,
+courseCtrl.deleteCourseHandle)
+router.put('/user/:userId/course/:courseId/enroll', courseCtrl.enrollCourseHandle)
+router.put('/user/:userId/course/:courseId/unenroll', courseCtrl.unenrollCourseHandle)
+router.put('/user/:userId/course/:courseId/complete', courseCtrl.completeStatusHandle)
 // router.delete('/course/:id', courseCtrl.deleteCourseAllHandle)
 
 // module routes
-router.get('/course/:courseId/module/', moduleCtrl.getAllModules)
-router.get('/course/:courseId/module/:moduleId', moduleCtrl.getModuleDetail)
-router.post('/course/:courseId/module', moduleCtrl.createNewModule)
-// router.delete('/course/:courseId/module/:moduleId', moduleCtrl.deleteModule)
+
+router.get('/course/:courseId/module/', authorization.authorizeAll,
+moduleCtrl.getAllModulesHandle)
+router.get('/course/:courseId/module/:moduleId', authorization.authorizeAll,
+moduleCtrl.getModuleByIdHandle)
+router.post('/course/:courseId/module', authorization.authorizeAdminAndTeacher,
+moduleCtrl.createModuleHandle)
+router.delete('/course/:courseId/module/:moduleId', authorization.authorizeAdminAndTeacher, 
+moduleCtrl.deleteModuleHandle)
 
 //api error handler
 router.get('/', main.onUp)
