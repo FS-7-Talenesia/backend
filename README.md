@@ -6,6 +6,7 @@ This is the backend component of our Learning Management System (LMS). It serves
 
 ## Table of Contents
 - [Features](#features)
+- [Code Architecture](#code-architecture)
 - [Tech Stack](#tech-stack)
 - [Available Scripts](#available-scripts)
 - [Project Structure](#project-structure)
@@ -21,6 +22,21 @@ This is the backend component of our Learning Management System (LMS). It serves
 - Submission file
 - Enrollments and student data management.
 - RESTful API for seamless integration with the frontend.
+
+## Code Architecture
+In this project, we use the repository pattern as the code architecture
+
+  - **`controllers/`:**
+    This directory typically contains the controllers, which handle the incoming requests, process the input, interact with the services, and return the response.
+
+  - **`models/`:**
+    This directory usually contains the data models, which define the structure of the data that the application works with.
+
+  - **`repositories/`:**
+    This directory is where the repository pattern comes into play. The repositories abstract the data access logic from the controllers and services. They contain methods for retrieving and persisting data.
+
+  - **`services/`:**
+    This directory typically contains the business logic of the application. Services interact with repositories to perform data operations and provide an abstraction layer for the controllers.
 
 ## Tech Stack
 The following technologies are used in the project:     
@@ -41,6 +57,7 @@ The following technologies are used in the project:
 This is the list of available scripts that you can run in the project directory:
 ```
 npm start
+npm run seed:user
 ```
 
 ## Project Structure
@@ -80,6 +97,9 @@ Before getting started, make sure you have the following installed:
 ```
 username: admin
 Password: admin2023
+
+username: kane
+Password: adminkane
 ```
 
 1. Clone the repository:
