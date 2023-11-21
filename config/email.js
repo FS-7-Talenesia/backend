@@ -49,7 +49,7 @@ async function sendForgot(user) {
             `
             <p>Hi ${user.email},</p>
             <p>Please click the following link to create new password:</p>
-            <p><a href="http://localhost:8000/change/password/${user.token_reset_password}">http://localhost:8000/change/password/${user.token_reset_password}</a></p>
+            <p><a href="http://localhost:8000/reset/password/${user.token_reset_password}">http://localhost:8000/reset/password/${user.token_reset_password}</a></p>
             <p>The link will expire in fifteen minutes.</p>
         `,
     }

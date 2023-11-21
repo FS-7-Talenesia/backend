@@ -10,7 +10,7 @@ const multipleChoiceBankQuestionCtrl = require('./multipleChoiceBankQuestionCtrl
 const questionCtrl = require('./questionCtrl')
 const choicesCtrl = require('./choicesCtrl')
 const moduleCtrl = require('./moduleCtrl')
-const assignmentCtrl = require('./assignmentCtrl')
+const multipleChoiceGradeCtrl = require('./multipleChoiceGradeCtrl')
 
 module.exports = {
     main,
@@ -25,6 +25,6 @@ module.exports = {
     questionCtrl,
     choicesCtrl,
     moduleCtrl,
-    assignmentCtrl,
+    multipleChoiceGradeCtrl
 }
 

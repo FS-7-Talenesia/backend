@@ -17,7 +17,13 @@ module.exports = {
 
     findById(id) {
         try {
-            return multipleChoiceQuestionBank.findOne({ _id: id }).populate('question_id').populate('choices_id')
+            return multipleChoiceQuestionBank.findOne({ _id: id }).populate({
+                path: 'question_id',
+                populate: {
+                    path: 'choices_id',
+                    model: 'choices'
+                }
+            })
         } catch (error) {
             throw new Error("Data not found")
         }

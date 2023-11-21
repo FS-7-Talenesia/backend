@@ -172,6 +172,7 @@ router.put('/user/:userId/course/:courseId/complete', courseCtrl.completeStatusH
 // router.delete('/course/:id', courseCtrl.deleteCourseAllHandle)
 
 // module routes
+
 router.get('/course/:courseId/module/', authorization.authorizeAll,
 moduleCtrl.getAllModulesHandle)
 router.get('/course/:courseId/module/:moduleId', authorization.authorizeAll,
@@ -180,7 +181,6 @@ router.post('/course/:courseId/module', authorization.authorizeAdminAndTeacher,
 moduleCtrl.createModuleHandle)
 router.delete('/course/:courseId/module/:moduleId', authorization.authorizeAdminAndTeacher, 
 moduleCtrl.deleteModuleHandle)
-
 
 //api error handler
 router.get('/', main.onUp)
