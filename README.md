@@ -12,6 +12,7 @@ This is the backend component of our Learning Management System (LMS). It serves
 - [Project Structure](#project-structure)
 - [Prerequisites](#prerequisites)
 - [API Documentation](#api-documentation)
+- [How to Install](#how-to-install)
 - [How to Run](#how-to-run)
 
 ## Features
@@ -91,7 +92,7 @@ Before getting started, make sure you have the following installed:
 - ***Access Website*** <br/>
 [Access to API documentation](https://documenter.getpostman.com/view/23550520/2s9Ye8hvYf)
 
-## How to Run
+## How to Install
 
 - ***User Admin*** <br/>
 ```
@@ -105,11 +106,41 @@ Password: adminkane
 1. Clone the repository:
 
    ```bash
+   git clone https://github.com/FS-7-Talenesia/backend
+   ```
+
+2. cd or open to the cloned repository folder 
+
+3. run npm install and npm run seed:user
+
+4. Open postman then input this url "http://localhost:8000/"
+
+5. if not run locall, change this url "http://localhost:8000/" to "https://fs-7-talenesia-backend.vercel.app/"
+
+6. next run the login endpoint to get the token
+
+
+## How to Run
+
+- ***User Admin*** <br/>
+```
+username: admin
+Password: admin2023
+
+username: kane
+Password: adminkane
+```
+
+1. Pull image from dockerhub:
+
+   ```bash
    docker pull romiari/fs7_lms_be:latest
    docker run -d -p 8000:8000 romiari/fs7_lms_be
 
 2. Open postman then input this url "http://localhost:8000/"
 
 3. if not using docker, change this url "http://localhost:8000/" to "https://fs-7-talenesia-backend.vercel.app/"
+
+4. next run the login endpoint to get the token
 
 
